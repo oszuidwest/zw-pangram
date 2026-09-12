@@ -1,0 +1,22 @@
+{
+    "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+    "meta": {
+        "title": "ZuidWest Pangram demo",
+        "author": "rmens"
+    },
+    "landingPage": "/wp-admin/tools.php?page=zw-pangram&tab=settings",
+    "login": true,
+    "siteOptions": {
+        "blogname": "ZuidWest Pangram demo"
+    },
+    "steps": [
+        {
+            "step": "activatePlugin",
+            "pluginPath": "zw-pangram/zw-pangram.php"
+        },
+        {
+            "step": "runPHP",
+            "code": "<?php require '/wordpress/wp-load.php'; $authors = []; foreach (['ada' => 'Ada Editor', 'ben' => 'Ben Writer'] as $login => $name) { $user = get_user_by('login', $login); $authors[$login] = $user ? (int) $user->ID : (int) wp_insert_user(['user_login' => $login, 'user_pass' => 'password', 'role' => 'author', 'display_name' => $name]); } if (get_page_by_path('pangram-demo-long-1', OBJECT, 'post')) { return; } $paragraph = static fn (string $t): string => \"<!-- wp:paragraph -->\\n<p>{$t}</p>\\n<!-- /wp:paragraph -->\\n\"; $long = ''; for ($i = 0; $i < 12; $i++) { $long .= $paragraph('The regional council met on Tuesday evening to discuss the proposed changes to the waterfront redevelopment plan, which has drawn both praise and criticism from residents. Several speakers argued that the current design does not leave enough room for public access, while others welcomed the promise of new housing &amp; retail space. The council will vote next month after a second round of consultation.'); } $short = $paragraph('Too short to score: only a handful of words here.'); $dutch = ''; for ($i = 0; $i < 10; $i++) { $dutch .= $paragraph('De gemeenteraad vergaderde dinsdagavond over de voorgestelde wijzigingen in het herontwikkelingsplan voor de haven. Meerdere insprekers vonden dat het ontwerp te weinig ruimte laat voor openbare toegang, terwijl anderen juist blij waren met de belofte van nieuwe woningen en winkels. Volgende maand stemt de raad na een tweede consultatieronde.'); } $posts = [['pangram-demo-long-1', 'Council debates waterfront plan', $long . $paragraph('[gallery ids=\"1,2\"] A shortcode and an &eacute;ntity for good measure.'), 'ada'], ['pangram-demo-long-2', 'Local bakery wins national award', $long, 'ada'], ['pangram-demo-long-3', 'School expansion delayed again', $long, 'ben'], ['pangram-demo-dutch', 'Raad debatteert over havenplan', $dutch, 'ben'], ['pangram-demo-short', 'A very short note', $short, 'ben']]; foreach ($posts as [$slug, $title, $content, $author]) { wp_insert_post(['post_type' => 'post', 'post_status' => 'publish', 'post_name' => $slug, 'post_title' => $title, 'post_content' => $content, 'post_author' => $authors[$author]]); }"
+        }
+    ]
+}

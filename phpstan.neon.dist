@@ -1,0 +1,12 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+        - zw-pangram.php
+        - uninstall.php
+    tmpDir: .phpstan-cache
+    bootstrapFiles:
+        - phpstan-bootstrap.php

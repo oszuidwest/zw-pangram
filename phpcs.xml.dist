@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<ruleset name="ZuidWest Pangram">
+    <description>WordPress coding standards for the ZuidWest Pangram plugin.</description>
+
+    <file>src</file>
+    <file>zw-pangram.php</file>
+    <file>uninstall.php</file>
+    <file>scripts</file>
+    <file>tests</file>
+
+    <arg name="extensions" value="php"/>
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="parallel" value="8"/>
+    <arg value="sp"/>
+
+    <config name="testVersion" value="8.3-"/>
+
+    <!-- Apply defect-oriented WordPress rules without classic formatting conventions. -->
+    <rule ref="WordPress-Docs">
+        <exclude name="Squiz.Commenting.FunctionComment.IncorrectTypeHint"/>
+        <!-- PHPStan @var annotations do not need prose. -->
+        <exclude name="Generic.Commenting.DocComment.MissingShort"/>
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>
+        <exclude-pattern>tests/*</exclude-pattern>
+        <exclude-pattern>scripts/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PHPCompatibilityWP"/>
+
+    <rule ref="WordPress.Security"/>
+    <rule ref="WordPress.Security.NonceVerification">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Security.ValidatedSanitizedInput">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Security.EscapeOutput">
+        <exclude-pattern>tests/*</exclude-pattern>
+        <exclude-pattern>scripts/*</exclude-pattern>
+    </rule>
+
+    <rule ref="WordPress.DB">
+        <exclude-pattern>tests/*</exclude-pattern>
+        <exclude-pattern>scripts/*</exclude-pattern>
+    </rule>
+
+    <rule ref="WordPress.WP.I18n">
+        <exclude-pattern>tests/*</exclude-pattern>
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="zw-pangram"/>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <exclude-pattern>tests/*</exclude-pattern>
+        <exclude-pattern>scripts/*</exclude-pattern>
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="zw_pangram"/>
+                <element value="ZW_PANGRAM"/>
+                <element value="ZWPangram"/>
+            </property>
+        </properties>
+    </rule>
+
+    <config name="minimum_wp_version" value="7.1"/>
+</ruleset>

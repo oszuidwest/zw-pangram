@@ -1,0 +1,100 @@
+---
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2, wp-cli
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - name: Verify the tag matches the plugin header
+        run: |
+          VERSION="$(scripts/build-plugin.sh --print-version)"
+          if [ "${GITHUB_REF_NAME}" != "v${VERSION}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match plugin version v${VERSION}."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: |
+          composer install --no-progress --prefer-dist --no-interaction
+          npm ci
+          sudo apt-get update && sudo apt-get install -y gettext
+
+      - name: Quality gates
+        run: |
+          composer validate --strict --no-check-publish
+          composer quality
+          scripts/pot.sh --check
+          npm run lint:js
+
+      - name: Tests (wp-env, WordPress 7.1)
+        run: |
+          npx wp-env start --config=.wp-env.tests.json
+          npm run test:php
+
+      - name: Build package
+        run: scripts/build-plugin.sh
+
+      - name: Verify package contents
+        run: |
+          VERSION="$(scripts/build-plugin.sh --print-version)"
+          ZIP="dist/zw-pangram-${VERSION}.zip"
+          test -s "$ZIP" && test -s "${ZIP}.sha256"
+          zipinfo -1 "$ZIP" > /tmp/package-files.txt
+          for required in \
+            zw-pangram/zw-pangram.php zw-pangram/uninstall.php zw-pangram/README.md zw-pangram/LICENSE \
+            zw-pangram/assets/admin.css zw-pangram/assets/admin.js zw-pangram/src/Plugin.php zw-pangram/src/functions.php \
+            zw-pangram/languages/zw-pangram.pot zw-pangram/languages/zw-pangram-nl_NL.mo; do
+            grep -qx "$required" /tmp/package-files.txt || { echo "::error::Missing $required in package."; exit 1; }
+          done
+          if grep -Eq '/(tests|vendor|node_modules|playground|scripts|\.github)/|/(composer|package|phpcs|phpstan|phpunit|\.wp-env)' /tmp/package-files.txt; then
+            echo "::error::Development files found in the release package."
+            cat /tmp/package-files.txt
+            exit 1
+          fi
+
+      - name: WordPress Plugin Check
+        run: mkdir -p build && unzip -q dist/zw-pangram-*.zip -d build
+
+      - uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: build/zw-pangram
+          exclude-checks: |
+            plugin_readme
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ARGS=("${GITHUB_REF_NAME}" dist/*.zip dist/*.sha256 --title "${GITHUB_REF_NAME}" --generate-notes --verify-tag)
+          if [[ "${GITHUB_REF_NAME}" == *-* ]]; then
+            ARGS+=(--prerelease)
+          fi
+          gh release create "${ARGS[@]}"

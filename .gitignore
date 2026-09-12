@@ -1,0 +1,17 @@
+/vendor/
+/node_modules/
+/dist/
+/*.zip
+.DS_Store
+.idea/
+.vscode/
+*.log
+.phpunit.result.cache
+.phpunit.cache/
+.phpstan-cache/
+.phpcs-cache
+/.wp-env.override.json
+/.wp-env.tests.override.json
+CLAUDE.md
+/.playwright-mcp/
+*.png
