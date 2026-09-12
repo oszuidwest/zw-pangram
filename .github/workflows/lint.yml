@@ -4,78 +4,35 @@ name: Lint
 on:
   push:
     branches: [main]
+    paths:
+      - '**/*.php'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpcs.xml'
+      - 'phpcs.xml.dist'
+      - 'phpstan.neon'
+      - 'phpstan.neon.dist'
+      - 'phpstan-bootstrap.php'
+      - 'languages/**'
   pull_request:
+    paths:
+      - '**/*.php'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpcs.xml'
+      - 'phpcs.xml.dist'
+      - 'phpstan.neon'
+      - 'phpstan.neon.dist'
+      - 'phpstan-bootstrap.php'
+      - 'languages/**'
   workflow_dispatch:
 
 permissions:
   contents: read
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  php:
-    name: PHP ${{ matrix.php }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ['8.3', '8.4']
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
-        with:
-          php-version: ${{ matrix.php }}
-          coverage: none
-          tools: composer:v2, cs2pr, wp-cli
-
-      - name: Validate PHP syntax
-        run: >-
-          find . -path './vendor' -prune -o -path './node_modules' -prune -o -path './dist' -prune -o
-          -name '*.php' -type f -print0 | xargs -0 -n1 php --syntax-check
-
-      - name: Validate composer.json
-        run: composer validate --strict --no-check-publish
-
-      - name: Install dependencies
-        run: composer install --no-progress --prefer-dist --no-interaction
-
-      - name: PHP_CodeSniffer
-        run: |
-          status=0
-          vendor/bin/phpcs -q --report=checkstyle > /tmp/phpcs.xml || status=$?
-          if [[ -s /tmp/phpcs.xml ]]; then
-            cs2pr < /tmp/phpcs.xml
-          fi
-          exit "$status"
-
-      - name: PHPStan
-        run: |
-          status=0
-          vendor/bin/phpstan analyse --no-progress --memory-limit=2G --error-format=checkstyle > /tmp/phpstan.xml || status=$?
-          if [[ -s /tmp/phpstan.xml ]]; then
-            cs2pr < /tmp/phpstan.xml
-          fi
-          exit "$status"
-
-      - name: Verify translation template
-        if: matrix.php == '8.3'
-        run: scripts/pot.sh --check
-
-  js:
-    name: JavaScript
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: '.nvmrc'
-          cache: npm
-
-      - run: npm ci
-      - run: npm run lint:js
+  lint:
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: oszuidwest/.github-templates/.github/workflows/wp-ci.yml@v3

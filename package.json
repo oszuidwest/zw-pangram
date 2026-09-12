@@ -4,6 +4,7 @@
     "description": "Development tooling for the ZuidWest Pangram plugin (wp-env, Playground, JS lint).",
     "license": "GPL-2.0-or-later",
     "scripts": {
+        "lint": "npm run lint:js",
         "lint:js": "wp-scripts lint-js \"assets/**/*.js\"",
         "playground": "wp-playground-cli server --port=9400 --workers=1 --php=8.3 --wp=7.1 --mount=./:/wordpress/wp-content/plugins/zw-pangram --blueprint=./playground/blueprint.json",
         "playground:smoke": "wp-playground-cli run-blueprint --php=8.3 --wp=7.1 --mount=./:/wordpress/wp-content/plugins/zw-pangram --blueprint=./playground/blueprint.json",
