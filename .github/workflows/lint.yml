@@ -38,3 +38,9 @@ jobs:
       contents: read
       pull-requests: write
     uses: oszuidwest/.github-templates/.github/workflows/wp-ci.yml@v3
+    with:
+      plugin-check-exclude-files: phpstan-bootstrap.php
+      plugin-check-exclude-directories: |
+        .phpstan-cache
+        scripts
+        tests
