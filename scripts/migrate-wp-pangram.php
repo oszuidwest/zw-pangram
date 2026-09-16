@@ -265,6 +265,9 @@ if ($zw_pangram_option_exists('wp_pangram_open_job')) {
 if ($zw_pangram_option_exists('wp_pangram_pending_submission')) {
     WP_CLI::error('A legacy submission has an unknown outcome. Resolve it with WP Pangram before migrating.');
 }
+if ($zw_pangram_option_exists('zw_pangram_open_job') || $zw_pangram_option_exists('zw_pangram_pending_submission')) {
+    WP_CLI::error('ZuidWest Pangram still has bulk-job state. Resolve it before migrating.');
+}
 
 $zw_pangram_legacy_queue = $zw_pangram_queue_counts($zw_pangram_legacy_table);
 if (($zw_pangram_legacy_queue['processing'] ?? 0) > 0 || ($zw_pangram_legacy_queue['submitted'] ?? 0) > 0) {
@@ -341,7 +344,9 @@ if ($zw_pangram_target_rows > 0) {
             $zw_pangram_error
         ));
     }
-    $wpdb->query('COMMIT');
+    if ($wpdb->query('COMMIT') === false) {
+        WP_CLI::error('Could not commit the table copy: ' . $wpdb->last_error);
+    }
     $zw_pangram_copied_rows = $zw_pangram_inserted;
     WP_CLI::log(sprintf('Copied %d rows to %s.', $zw_pangram_inserted, $zw_pangram_target_table));
 }
@@ -373,12 +378,16 @@ foreach ($zw_pangram_legacy_user_ids as $zw_pangram_user_id) {
 if (wp_clear_scheduled_hook('wp_pangram_tick') === false) {
     WP_CLI::error('Could not clear the legacy cron hook.');
 }
-update_option($zw_pangram_marker_option, [
+$zw_pangram_marker = [
     'source' => 'wp-pangram',
     'migrated_at_utc' => gmdate('c'),
     'blog_id' => get_current_blog_id(),
     'rows' => $zw_pangram_legacy_rows,
-], false);
+];
+update_option($zw_pangram_marker_option, $zw_pangram_marker, false);
+if (get_option($zw_pangram_marker_option, null) !== $zw_pangram_marker) {
+    WP_CLI::error('Could not record the migration marker.');
+}
 
 if (!$zw_pangram_options_match() || !$zw_pangram_usermeta_matches()) {
     WP_CLI::error('Option or user-setting verification failed. Table data and legacy data remain intact.');
