@@ -370,7 +370,9 @@ foreach ($zw_pangram_legacy_user_ids as $zw_pangram_user_id) {
     }
 }
 
-wp_clear_scheduled_hook('wp_pangram_tick');
+if (wp_clear_scheduled_hook('wp_pangram_tick') === false) {
+    WP_CLI::error('Could not clear the legacy cron hook.');
+}
 update_option($zw_pangram_marker_option, [
     'source' => 'wp-pangram',
     'migrated_at_utc' => gmdate('c'),
