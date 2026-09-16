@@ -16,6 +16,7 @@ jobs:
   release:
     uses: oszuidwest/.github-templates/.github/workflows/wp-release.yml@v3
     with:
+      build-script: scripts/build-plugin.sh
       force: ${{ inputs.force }}
     permissions:
       contents: write

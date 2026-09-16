@@ -11,6 +11,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'biome.json'
+      - '.github/workflows/lint-js.yml'
   pull_request:
     paths:
       - '**/*.js'
@@ -19,6 +20,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'biome.json'
+      - '.github/workflows/lint-js.yml'
   workflow_dispatch:
 
 permissions:
