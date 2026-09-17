@@ -80,5 +80,4 @@ while ($zw_pangram_done < $zw_pangram_count) {
         WP_CLI::log(sprintf('%d / %d posts seeded (%.1fs)', $zw_pangram_done, $zw_pangram_count, microtime(true) - $zw_pangram_start));
     }
 }
-(new ItemsRepository())->bumpStatsVersion();
 WP_CLI::success(sprintf('Seeded %d posts with results.', $zw_pangram_count));

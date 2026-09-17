@@ -84,7 +84,7 @@ final class ResultsQueryTest extends PluginTestCase
 
         $this->repo->writeFailed($this->row($this->posts['human']), 'later failure');
         $rows = (new AuthorStats())->compute(ResultsFilters::fromRequest([]));
-        $this->assertSame(2, $rows[0]['scanned'] + $rows[1]['scanned'], 'cache invalidated by the version bump');
+        $this->assertSame(2, $rows[0]['scanned'] + $rows[1]['scanned'], 'statistics use current result data');
     }
 
     private function ok(int $p, string $label, float $ai, float $assisted, float $human, bool $stale = false): void

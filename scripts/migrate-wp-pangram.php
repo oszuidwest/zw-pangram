@@ -71,7 +71,6 @@ $zw_pangram_option_map = [
     'wp_pangram_queue_state' => 'zw_pangram_queue_state',
     'wp_pangram_error_log' => 'zw_pangram_error_log',
     'wp_pangram_unit_cap' => 'zw_pangram_unit_cap',
-    'wp_pangram_stats_version' => 'zw_pangram_stats_version',
     'wp_pangram_results_per_page' => 'zw_pangram_results_per_page',
 ];
 

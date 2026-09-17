@@ -26,14 +26,12 @@ abstract class PluginTestCase extends \WP_UnitTestCase
         // SHOW TABLES must see the plugin table; the test transaction isolates its rows.
         remove_filter('query', [$this, '_create_temporary_tables']);
         remove_filter('query', [$this, '_drop_temporary_tables']);
-        ItemsRepository::resetRequestState();
         Activation::activate(false);
         global $wpdb;
         $wpdb->query('DELETE FROM ' . ItemsRepository::tableName());
-        foreach ([Settings::OPTION, QueueState::OPTION, BulkJob::OPTION, BulkJob::PENDING_OPTION, ErrorLog::OPTION, Lock::OPTION, BatchBuilder::CAP_OPTION, Scheduler::LAST_TICK_OPTION, ItemsRepository::STATS_VERSION_OPTION] as $option) {
+        foreach ([Settings::OPTION, QueueState::OPTION, BulkJob::OPTION, BulkJob::PENDING_OPTION, ErrorLog::OPTION, Lock::OPTION, BatchBuilder::CAP_OPTION, Scheduler::LAST_TICK_OPTION] as $option) {
             delete_option($option);
         }
-        ItemsRepository::resetRequestState();
         Settings::update(['api_key' => 'test-key-1234567890', 'min_words' => 3, 'batch_size' => 20]);
         $this->repo = new ItemsRepository();
         $this->client = new FakeClient();

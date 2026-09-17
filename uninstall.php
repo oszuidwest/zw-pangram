@@ -26,19 +26,11 @@ $zw_pangram_cleanup = static function (): void {
         'zw_pangram_last_tick',
         'zw_pangram_unit_cap',
         'zw_pangram_schedule_error',
-        'zw_pangram_stats_version',
         'zw_pangram_results_per_page',
     ] as $zw_pangram_option) {
         delete_option($zw_pangram_option);
     }
 
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Prefix delete of plugin transients.
-    $wpdb->query($wpdb->prepare(
-        'DELETE FROM %i WHERE option_name LIKE %s OR option_name LIKE %s',
-        $wpdb->options,
-        $wpdb->esc_like('_transient_zw_pangram_') . '%',
-        $wpdb->esc_like('_transient_timeout_zw_pangram_') . '%'
-    ));
     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Prefix delete of plugin user meta (screen options).
     $wpdb->query($wpdb->prepare('DELETE FROM %i WHERE meta_key = %s', $wpdb->usermeta, 'zw_pangram_results_per_page'));
 

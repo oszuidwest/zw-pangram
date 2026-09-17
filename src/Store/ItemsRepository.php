@@ -36,11 +36,7 @@ final class ItemsRepository
     public const MAX_ATTEMPTS = 3;
     public const STALE_CLAIM_SECONDS = 900;
     public const MAX_BACKOFF_SECONDS = 3600;
-    public const STATS_VERSION_OPTION = 'zw_pangram_stats_version';
     public const ERROR_MAX_BYTES = 500;
-
-    /** @var bool Whether this request has invalidated statistics. */
-    private static bool $statsBumpedThisRequest = false;
 
     /** @var bool|null Memoized table existence for this request. */
     private static ?bool $tableExists = null;
@@ -602,10 +598,7 @@ final class ItemsRepository
     public function deleteByPostId(int $postId): void
     {
         global $wpdb;
-        $deleted = $wpdb->delete(self::tableName(), ['post_id' => $postId], ['%d']);
-        if ($deleted) {
-            $this->bumpStatsVersion();
-        }
+        $wpdb->delete(self::tableName(), ['post_id' => $postId], ['%d']);
     }
 
     /**
@@ -684,29 +677,6 @@ final class ItemsRepository
         return $result;
     }
 
-    /** Invalidates statistics once per request. */
-    public function bumpStatsVersion(): void
-    {
-        if (self::$statsBumpedThisRequest) {
-            return;
-        }
-        self::$statsBumpedThisRequest = true;
-        update_option(self::STATS_VERSION_OPTION, self::statsVersion() + 1, false);
-    }
-
-    /** Returns the statistics version. */
-    public static function statsVersion(): int
-    {
-        return (int) get_option(self::STATS_VERSION_OPTION, 0);
-    }
-
-    /** Resets request-scoped repository state. */
-    public static function resetRequestState(): void
-    {
-        self::$statsBumpedThisRequest = false;
-        self::$tableExists = null;
-    }
-
     /**
      * Stores a result, settles its queue state and releases its claim.
      *
@@ -726,7 +696,6 @@ final class ItemsRepository
             'next_attempt_at' => null,
         ] + $this->queueOutcome($terminal, $requeueReason, $lastError);
         $this->update($row['post_id'], $data);
-        $this->bumpStatsVersion();
     }
 
     /**
