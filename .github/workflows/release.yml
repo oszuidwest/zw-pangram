@@ -16,7 +16,7 @@ jobs:
   release:
     uses: oszuidwest/.github-templates/.github/workflows/wp-release.yml@v3
     with:
-      build-script: scripts/build-plugin.sh
+      plugin-slug: zw-pangram
       force: ${{ inputs.force }}
     permissions:
       contents: write
