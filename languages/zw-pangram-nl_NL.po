@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: ZuidWest Pangram 0.0.1\n"
+"Project-Id-Version: ZuidWest Pangram 0.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/oszuidwest/zw-pangram/issues\n"
 "POT-Creation-Date: 2026-09-11T21:49:19+00:00\n"
 "PO-Revision-Date: 2026-09-11 21:00+0000\n"

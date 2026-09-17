@@ -3,7 +3,7 @@
  * Plugin Name:       ZuidWest Pangram
  * Plugin URI:        https://github.com/oszuidwest/zw-pangram
  * Description:       Scores existing posts with the Pangram Labs AI text detector via its bulk API and reports the results in wp-admin.
- * Version:           0.0.1
+ * Version:           0.1.0
  * Requires at least: 7.1
  * Requires PHP:      8.3
  * Author:            Streekomroep ZuidWest
