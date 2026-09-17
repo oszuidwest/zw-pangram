@@ -324,6 +324,14 @@ if ($zw_pangram_target_rows > 0) {
     }
     WP_CLI::log('Target table already contains an exact copy; skipping row copy.');
 } elseif ($zw_pangram_legacy_rows > 0) {
+    $zw_pangram_transactional_tables = (int) $wpdb->get_var($wpdb->prepare(
+        "SELECT COUNT(*) FROM information_schema.TABLES AS t INNER JOIN information_schema.ENGINES AS e USING (ENGINE) WHERE t.TABLE_SCHEMA = DATABASE() AND t.TABLE_NAME IN (%s, %s) AND e.TRANSACTIONS = 'YES'",
+        $zw_pangram_legacy_table,
+        $zw_pangram_target_table
+    ));
+    if ($zw_pangram_transactional_tables !== 2) {
+        WP_CLI::error('The legacy and target tables must use transactional storage engines.');
+    }
     $zw_pangram_column_sql = implode(', ', array_map(
         static fn (string $column): string => '`' . $column . '`',
         $zw_pangram_columns
