@@ -1,0 +1,21 @@
+# Development and repository metadata.
+/.git
+/.github/
+/.gitignore
+/.nvmrc
+/.wp-env.json
+/.wp-env.tests.json
+/composer.json
+/composer.lock
+/docs/
+/node_modules/
+/package.json
+/package-lock.json
+/phpcs.xml.dist
+/phpstan-bootstrap.php
+/phpstan.neon.dist
+/phpunit.xml.dist
+/playground/
+/scripts/
+/tests/
+/vendor/
