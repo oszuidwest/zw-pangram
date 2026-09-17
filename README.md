@@ -36,6 +36,25 @@ define('ZW_PANGRAM_API_KEY', 'your-key');
 
 WP-Cron processes the queue in the background. On low-traffic sites, configure a system cron to run WordPress cron regularly.
 
+## Migrating from WP Pangram
+
+The old and new plugin slugs use different tables, options, cron hooks, and API-key constants. Use the repository's WP-CLI script instead of activating ZuidWest Pangram as a fresh installation.
+
+1. In WP Pangram, pause the queue and wait until no bulk job is open and no items are processing or submitted.
+2. Back up the WordPress database.
+3. Deactivate both WP Pangram and ZuidWest Pangram. Do not delete WP Pangram yet.
+4. Inspect the current state, migrate, and verify:
+
+```bash
+wp eval-file scripts/migrate-wp-pangram.php status
+wp eval-file scripts/migrate-wp-pangram.php migrate
+wp eval-file scripts/migrate-wp-pangram.php verify
+```
+
+On multisite, run all three commands separately for every site with `--url=<site-url>`. The script deliberately retains the legacy table and options for rollback and never prints the API key. If `WP_PANGRAM_API_KEY` is defined in `wp-config.php`, rename it to `ZW_PANGRAM_API_KEY` before activating ZuidWest Pangram.
+
+After verification, activate ZuidWest Pangram, test the API connection and queue, and check that only `zw_pangram_tick` is scheduled. Keep the old plugin and data until the production migration has been accepted.
+
 ## Development
 
 ```bash
