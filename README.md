@@ -69,6 +69,8 @@ npm run test:php
 
 Docker is required for the PHPUnit test environment.
 
+Reporting-query measurements and the author-statistics latency budget are documented in [docs/performance.md](docs/performance.md).
+
 ## License
 
 GPL-2.0-or-later

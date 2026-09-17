@@ -54,7 +54,6 @@ final class ActivationTest extends PluginTestCase
         global $wpdb;
         $this->repo->upsertPending([123456], false);
         QueueState::pause('x', false);
-        set_transient('zw_pangram_stats_1_abc', [], 60);
 
         if (!defined('WP_UNINSTALL_PLUGIN')) {
             define('WP_UNINSTALL_PLUGIN', 'zw-pangram/zw-pangram.php');
@@ -65,10 +64,8 @@ final class ActivationTest extends PluginTestCase
         $this->assertFalse(get_option(Settings::OPTION));
         $this->assertFalse(get_option(QueueState::OPTION));
         $this->assertFalse(get_option(Activation::DB_VERSION_OPTION));
-        $this->assertFalse(get_transient('zw_pangram_stats_1_abc'));
         $this->assertFalse(wp_next_scheduled(Scheduler::EVENT));
 
-        ItemsRepository::resetRequestState();
         Activation::activate(false);
         $this->assertTrue(ItemsRepository::tableExists());
     }

@@ -30,11 +30,10 @@ $zw_pangram_cases = [
     'list label AI + author' => static fn () => $zw_pangram_query->rows(ResultsFilters::fromRequest(['label' => 'AI', 'author' => 2]), 20, 1),
     'title search' => static fn () => $zw_pangram_query->rows(ResultsFilters::fromRequest(['s' => 'post 4']), 20, 1),
     'csv page (500 rows)' => static fn () => $zw_pangram_query->rows(ResultsFilters::fromRequest([]), 500, 3),
-    'author stats (uncached)' => static function () {
-        delete_transient('zw_pangram_stats_' . ItemsRepository::statsVersion() . '_' . md5((string) wp_json_encode([['post'], null, null])));
-        return (new AuthorStats())->compute(ResultsFilters::fromRequest([]));
-    },
+    'author stats' => static fn () => (new AuthorStats())->compute(ResultsFilters::fromRequest([])),
 ];
+// p95 latency budgets per case; see docs/performance.md.
+$zw_pangram_budgets_ms = ['author stats' => 150.0];
 
 $zw_pangram_percentile = static function (array $values, float $p): float {
     sort($values);
@@ -42,6 +41,26 @@ $zw_pangram_percentile = static function (array $values, float $p): float {
     return $values[max(0, min(count($values) - 1, $index))];
 };
 
+// Describe the dataset with the same reporting scope the measured queries use.
+$zw_pangram_items = ItemsRepository::tableName();
+$zw_pangram_successful = ResultsFilters::fromRequest(['status' => 'ok']);
+[$zw_pangram_where, $zw_pangram_args] = $zw_pangram_query->where($zw_pangram_successful);
+$zw_pangram_author_count = (int) $wpdb->get_var($wpdb->prepare(
+    'SELECT COUNT(DISTINCT p.post_author) FROM %i AS p INNER JOIN %i AS i ON i.post_id = p.ID WHERE ' . $zw_pangram_where,
+    $wpdb->posts,
+    $zw_pangram_items,
+    ...$zw_pangram_args
+));
+
+WP_CLI::log(sprintf('Environment: WordPress %s; PHP %s; database %s.', get_bloginfo('version'), PHP_VERSION, $wpdb->db_server_info()));
+WP_CLI::log(sprintf(
+    'Dataset: %d plugin rows (%d successful) across %d authors; %d measured runs after one warm-up.',
+    (int) $wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM %i', $zw_pangram_items)),
+    $zw_pangram_query->count($zw_pangram_successful),
+    $zw_pangram_author_count,
+    $zw_pangram_runs
+));
+WP_CLI::log('');
 WP_CLI::log(sprintf('%-45s %10s %10s %10s', 'query', 'median ms', 'p95 ms', 'max ms'));
 foreach ($zw_pangram_cases as $name => $fn) {
     $fn(); // Prime caches before measuring.
@@ -51,12 +70,15 @@ foreach ($zw_pangram_cases as $name => $fn) {
         $fn();
         $times[] = (microtime(true) - $t) * 1000;
     }
-    WP_CLI::log(sprintf('%-45s %10.1f %10.1f %10.1f', $name, $zw_pangram_percentile($times, 0.5), $zw_pangram_percentile($times, 0.95), max($times)));
+    $p95 = $zw_pangram_percentile($times, 0.95);
+    WP_CLI::log(sprintf('%-45s %10.1f %10.1f %10.1f', $name, $zw_pangram_percentile($times, 0.5), $p95, max($times)));
+    if (isset($zw_pangram_budgets_ms[$name])) {
+        WP_CLI::log(sprintf('%-45s budget p95 <= %.1f ms: %s', '', $zw_pangram_budgets_ms[$name], $p95 <= $zw_pangram_budgets_ms[$name] ? 'PASS' : 'FAIL'));
+    }
 }
 
 WP_CLI::log('');
 WP_CLI::log('EXPLAIN of the list query ordered by AI fraction:');
-$zw_pangram_items = ItemsRepository::tableName();
 $zw_pangram_explain = $wpdb->get_results(
     "EXPLAIN SELECT p.ID FROM {$wpdb->posts} AS p INNER JOIN {$zw_pangram_items} AS i ON i.post_id = p.ID AND i.result_status IS NOT NULL
      WHERE p.post_type IN ('post') AND p.post_status NOT IN ('trash','auto-draft')

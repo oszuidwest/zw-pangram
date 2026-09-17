@@ -10,9 +10,8 @@ declare(strict_types=1);
 namespace ZWPangram\Admin;
 
 use ZWPangram\Store\ItemsRepository;
-use ZWPangram\Support\Settings;
 
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Aggregate over the plugin table; cached in a versioned transient.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reporting aggregate over the plugin table; see docs/performance.md.
 // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders -- SQL is built from constants plus generated placeholder lists and always prepared.
 
 /**
@@ -22,8 +21,6 @@ use ZWPangram\Support\Settings;
  */
 final class AuthorStats
 {
-    public const TTL = 10 * MINUTE_IN_SECONDS;
-
     /**
      * Returns author statistics ordered by scan count.
      *
@@ -32,14 +29,6 @@ final class AuthorStats
      */
     public function compute(ResultsFilters $filters): array
     {
-        $types = Settings::get()['post_types'];
-        $key = 'zw_pangram_stats_' . ItemsRepository::statsVersion() . '_' . md5(wp_json_encode([$types, $filters->from, $filters->to]) ?: '');
-        $cached = get_transient($key);
-        if (is_array($cached)) {
-            /** @var list<AuthorRow> $cached */
-            return $cached;
-        }
-
         global $wpdb;
         // Match the results table's successful-scan and date-range scope.
         $statsFilters = ResultsFilters::fromRequest([
@@ -76,9 +65,6 @@ final class AuthorStats
                 'n_human' => (int) $row['n_human'],
             ];
         }
-        set_transient($key, $out, self::TTL);
-        // Let subsequent writes advance the cache version within this request.
-        ItemsRepository::resetRequestState();
         return $out;
     }
 }
