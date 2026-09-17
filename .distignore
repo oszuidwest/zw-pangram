@@ -16,6 +16,9 @@
 /phpstan.neon.dist
 /phpunit.xml.dist
 /playground/
-/scripts/
+# Keep scripts/migrate-wp-pangram.php available for release users.
+/scripts/benchmark-results.php
+/scripts/pot.sh
+/scripts/seed-fixtures.php
 /tests/
 /vendor/
