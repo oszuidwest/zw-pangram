@@ -1,0 +1,24 @@
+# Development and repository metadata.
+/.git
+/.github/
+/.gitignore
+/.nvmrc
+/.wp-env.json
+/.wp-env.tests.json
+/composer.json
+/composer.lock
+/docs/
+/node_modules/
+/package.json
+/package-lock.json
+/phpcs.xml.dist
+/phpstan-bootstrap.php
+/phpstan.neon.dist
+/phpunit.xml.dist
+/playground/
+# Keep scripts/migrate-wp-pangram.php available for release users.
+/scripts/benchmark-results.php
+/scripts/pot.sh
+/scripts/seed-fixtures.php
+/tests/
+/vendor/

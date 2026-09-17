@@ -23,7 +23,7 @@ Multisite is supported only when the plugin is activated per site.
 
 ## Installation
 
-1. Download a release zip or build one with `scripts/build-plugin.sh`.
+1. Download the latest zip from [GitHub Releases](https://github.com/oszuidwest/zw-pangram/releases/latest).
 2. Install and activate the plugin.
 3. Open **Tools > Pangram > Settings** and enter your API key.
 4. Test the connection, then use **Tools > Pangram > Scan** to queue posts.
