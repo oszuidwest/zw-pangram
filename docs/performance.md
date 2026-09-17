@@ -18,6 +18,6 @@ Measurement on 2026-09-17:
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 50,000 result rows; 47,500 successful; 25 authors | WordPress 7.1, PHP 8.3.33, MariaDB 12.3.3 in Docker | 20 after one warm-up | 79.6 ms | 90.0 ms | 103.3 ms | p95 <= 150 ms |
 
-The uncached query passes the budget with 60.0 ms of p95 headroom. Author-statistics caching was therefore removed: its version option used a read/increment/write invalidation that could lose concurrent increments, and it coupled result writes to reporting-cache state. Running the measured aggregate directly is simpler and always reflects current results.
+The query passes the budget with 60.0 ms of p95 headroom. Author-statistics caching was therefore removed: its version option used a read/increment/write invalidation that could lose concurrent increments, and it coupled result writes to reporting-cache state. Running the measured aggregate directly is simpler and always reflects current results.
 
-The benchmark prints the actual dataset size, runtime versions, percentiles, and a PASS/FAIL line for the author-statistics budget so future measurements can be compared under the same conditions.
+The benchmark prints the dataset size and runtime versions alongside the percentiles so later runs can be compared under the same conditions.
