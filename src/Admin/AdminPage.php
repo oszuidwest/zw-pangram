@@ -101,7 +101,6 @@ final class AdminPage
         }
         wp_localize_script('zw-pangram-admin', 'zwPangram', [
             'nonce' => wp_create_nonce(Ajax::NONCE),
-            'tab' => self::currentTab(),
             'i18n' => [
                 'testing' => __('Testing connection...', 'zw-pangram'),
                 'valid' => __('Connection OK. Pangram 4 is available.', 'zw-pangram'),

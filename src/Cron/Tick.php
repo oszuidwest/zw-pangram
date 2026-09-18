@@ -225,7 +225,6 @@ final class Tick
 
         $bulkId = (string) $response['bulk_id'];
         $acceptedIds = $this->stagedPostIds((array) ($response['accepted_items'] ?? []), $staged);
-        BulkJob::open($bulkId, $token, Settings::apiKeyFingerprint(), count($acceptedIds));
 
         /** @var list<array<string, mixed>> $failedItems Validated failed items. */
         $failedItems = (array) ($response['failed_items'] ?? []);
@@ -240,20 +239,17 @@ final class Tick
         }
 
         if ((string) $response['status'] === 'failed' || $acceptedIds === []) {
-            // No accepted items means no open job may remain.
-            BulkJob::close();
             $this->repo->release($token);
             BulkJob::clearPending();
             ErrorLog::add('Pangram accepted none of the submitted items.', ['bulk_id' => $bulkId]);
             return 'nothing-accepted';
         }
 
+        // Release staged rows omitted from the API response before the job exists, so that a crash
+        // between open() and markSubmitted() leaves only accepted rows for Recovery to link.
+        $this->repo->release($token, array_values(array_diff(array_keys($staged), $acceptedIds)));
+        BulkJob::open($bulkId, $token, Settings::apiKeyFingerprint(), count($acceptedIds));
         $this->repo->markSubmitted($token, $acceptedIds, $bulkId);
-        // Release still-processing staged rows omitted from the API response.
-        $unmentioned = array_values(array_diff(array_keys($staged), $acceptedIds));
-        if ($unmentioned !== []) {
-            $this->repo->release($token, $unmentioned);
-        }
         BulkJob::clearPending();
         BatchBuilder::setCap((int) ceil($cap * 1.25));
         return 'submitted';

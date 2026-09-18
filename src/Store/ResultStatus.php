@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace ZWPangram\Store;
 
 /**
- * Stored scan outcome.
+ * Stored scan outcome, independent of the queue state (see QueueStatus).
  */
 enum ResultStatus: string
 {

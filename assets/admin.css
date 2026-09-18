@@ -1,25 +1,117 @@
-.zw-pangram .zw-pangram-inline { display: inline-block; margin: 0 1em 0.5em 0; }
-.zw-pangram .zw-pangram-inline-form { display: inline-block; margin: 0 0.5em 0.5em 0; vertical-align: middle; }
-.zw-pangram .zw-pangram-actions { margin: 1em 0; }
-.zw-pangram .zw-pangram-counters { display: flex; flex-wrap: wrap; gap: 1em; list-style: none; margin: 0.5em 0; padding: 0; }
-.zw-pangram .zw-pangram-pill { display: inline-block; min-width: 2em; padding: 0.1em 0.6em; border-radius: 1em; background: #dcdcde; color: #1d2327; font-weight: 600; text-align: center; }
-.zw-pangram .zw-pangram-pill-pending, .zw-pangram .zw-pangram-pill-processing, .zw-pangram .zw-pangram-pill-submitted { background: #f0f6fc; color: #0a4b78; }
-.zw-pangram .zw-pangram-pill-done, .zw-pangram .zw-pangram-pill-ok { background: #edfaef; color: #00450c; }
-.zw-pangram .zw-pangram-pill-failed { background: #fcf0f1; color: #8a1f11; }
-.zw-pangram .zw-pangram-pill-skipped { background: #fcf9e8; color: #6b4d00; }
-.zw-pangram .zw-pangram-badge { display: inline-block; padding: 0 0.5em; border-radius: 3px; font-size: 11px; font-weight: 600; line-height: 1.8; text-transform: uppercase; }
-.zw-pangram .zw-pangram-badge-ai { background: #d63638; color: #fff; }
-.zw-pangram .zw-pangram-badge-mixed { background: #dba617; color: #1d2327; }
-.zw-pangram .zw-pangram-badge-human { background: #00a32a; color: #fff; }
-.zw-pangram .zw-pangram-badge-stale { background: #8c8f94; color: #fff; }
-.zw-pangram .zw-pangram-row-form { display: inline; }
-.zw-pangram .zw-pangram-row-form .button-link { padding: 0; color: #2271b1; text-decoration: underline; cursor: pointer; }
-.zw-pangram .zw-pangram-log pre { margin: 0.5em 0 0; max-height: 8em; overflow: auto; white-space: pre-wrap; font-size: 11px; }
-.zw-pangram .zw-pangram-stats td, .zw-pangram .zw-pangram-log td { vertical-align: top; }
-.zw-pangram .zw-pangram-filters select, .zw-pangram .zw-pangram-filters input { margin-right: 4px; }
-#zw-pangram-test-result { margin-left: 0.5em; }
-#zw-pangram-test-result.is-error { color: #d63638; }
-#zw-pangram-test-result.is-ok { color: #00450c; }
-.zw-pangram .zw-pangram-details th { width: 12em; text-align: left; }
-.zw-pangram .zw-pangram-segments td { vertical-align: top; }
-.zw-pangram .zw-pangram-segment-text { white-space: pre-wrap; }
+.zw-pangram .zw-pangram-inline {
+    display: inline-block;
+    margin: 0 1em 0.5em 0;
+}
+.zw-pangram .zw-pangram-inline-form {
+    display: inline-block;
+    margin: 0 0.5em 0.5em 0;
+    vertical-align: middle;
+}
+.zw-pangram .zw-pangram-actions {
+    margin: 1em 0;
+}
+.zw-pangram .zw-pangram-counters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    list-style: none;
+    margin: 0.5em 0;
+    padding: 0;
+}
+.zw-pangram .zw-pangram-pill {
+    display: inline-block;
+    min-width: 2em;
+    padding: 0.1em 0.6em;
+    border-radius: 1em;
+    background: #dcdcde;
+    color: #1d2327;
+    font-weight: 600;
+    text-align: center;
+}
+.zw-pangram .zw-pangram-pill-pending,
+.zw-pangram .zw-pangram-pill-processing,
+.zw-pangram .zw-pangram-pill-submitted {
+    background: #f0f6fc;
+    color: #0a4b78;
+}
+.zw-pangram .zw-pangram-pill-done,
+.zw-pangram .zw-pangram-pill-ok {
+    background: #edfaef;
+    color: #00450c;
+}
+.zw-pangram .zw-pangram-pill-failed {
+    background: #fcf0f1;
+    color: #8a1f11;
+}
+.zw-pangram .zw-pangram-pill-skipped {
+    background: #fcf9e8;
+    color: #6b4d00;
+}
+.zw-pangram .zw-pangram-badge {
+    display: inline-block;
+    padding: 0 0.5em;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.8;
+    text-transform: uppercase;
+}
+.zw-pangram .zw-pangram-badge-ai {
+    background: #d63638;
+    color: #fff;
+}
+.zw-pangram .zw-pangram-badge-mixed {
+    background: #dba617;
+    color: #1d2327;
+}
+.zw-pangram .zw-pangram-badge-human {
+    background: #00a32a;
+    color: #fff;
+}
+.zw-pangram .zw-pangram-badge-stale {
+    background: #8c8f94;
+    color: #fff;
+}
+.zw-pangram .zw-pangram-row-form {
+    display: inline;
+}
+.zw-pangram .zw-pangram-row-form .button-link {
+    padding: 0;
+    color: #2271b1;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.zw-pangram .zw-pangram-log pre {
+    margin: 0.5em 0 0;
+    max-height: 8em;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 11px;
+}
+.zw-pangram .zw-pangram-stats td,
+.zw-pangram .zw-pangram-log td {
+    vertical-align: top;
+}
+.zw-pangram .zw-pangram-filters select,
+.zw-pangram .zw-pangram-filters input {
+    margin-right: 4px;
+}
+#zw-pangram-test-result {
+    margin-left: 0.5em;
+}
+#zw-pangram-test-result.is-error {
+    color: #d63638;
+}
+#zw-pangram-test-result.is-ok {
+    color: #00450c;
+}
+.zw-pangram .zw-pangram-details th {
+    width: 12em;
+    text-align: left;
+}
+.zw-pangram .zw-pangram-segments td {
+    vertical-align: top;
+}
+.zw-pangram .zw-pangram-segment-text {
+    white-space: pre-wrap;
+}

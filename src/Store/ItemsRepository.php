@@ -29,6 +29,7 @@ use ZWPangram\Support\Text;
  *   response_json: string|null, updated_at: string
  * }
  * List queries omit response_json; find() loads it explicitly.
+ * The SQL below spells out the QueueStatus and ResultStatus values as literals; keep them equal.
  */
 final class ItemsRepository
 {

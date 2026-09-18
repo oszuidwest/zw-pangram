@@ -11,6 +11,10 @@ namespace ZWPangram\Store;
 
 /**
  * Queue state of an item.
+ *
+ * The queue_status column tracks the work in flight and result_status (ResultStatus) the last stored outcome. Both are
+ * orthogonal: a row can be Pending for a rescan, or Skipped as unchanged, while result_status still holds the ok
+ * result of the previous scan. ItemsRepository owns every transition; each of its methods documents its own.
  */
 enum QueueStatus: string
 {
