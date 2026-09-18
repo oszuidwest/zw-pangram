@@ -62,12 +62,14 @@ composer install
 npm ci
 composer lint
 composer stan
-npm run lint:js
+npm run lint
 npm run env:start
 npm run test:php
 ```
 
 Docker is required for the PHPUnit test environment.
+
+`npm run lint` runs Biome over the admin JavaScript and CSS in `assets/`; `npm run lint:fix` applies its fixes.
 
 Reporting-query measurements and the author-statistics latency budget are documented in [docs/performance.md](docs/performance.md).
 

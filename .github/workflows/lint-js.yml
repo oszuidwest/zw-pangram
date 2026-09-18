@@ -5,18 +5,14 @@ on:
   push:
     branches: [main]
     paths:
-      - '**/*.js'
-      - '**/*.ts'
-      - '**/*.css'
+      - 'assets/**'
       - 'package.json'
       - 'package-lock.json'
       - 'biome.json'
       - '.github/workflows/lint-js.yml'
   pull_request:
     paths:
-      - '**/*.js'
-      - '**/*.ts'
-      - '**/*.css'
+      - 'assets/**'
       - 'package.json'
       - 'package-lock.json'
       - 'biome.json'
