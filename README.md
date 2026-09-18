@@ -69,7 +69,7 @@ npm run test:php
 
 Docker is required for the PHPUnit test environment.
 
-The Node toolchain has three parts, each with its own job: `@wordpress/env` runs the PHPUnit suite against a real WordPress in Docker, `@wp-playground/cli` provides the seeded demo site (`npm run playground`) and the headless activation smoke test in CI, and `@biomejs/biome` lints and formats the admin JavaScript and CSS (`npm run lint`, `npm run lint:fix`).
+`npm run lint` runs Biome over the admin JavaScript and CSS in `assets/`; `npm run lint:fix` applies its fixes.
 
 Reporting-query measurements and the author-statistics latency budget are documented in [docs/performance.md](docs/performance.md).
 

@@ -1,11 +1,11 @@
-(($) => {
+jQuery(($) => {
     function testConnection() {
         const $result = $('#zw-pangram-test-result');
         $result.removeClass('is-ok is-error').text(zwPangram.i18n.testing);
         wp.ajax
             .post('zw_pangram_test_connection', {
                 nonce: zwPangram.nonce,
-                api_key: $('#zw-pangram-api-key').val() || '',
+                api_key: $('#zw-pangram-api-key').val(),
             })
             .done(() => {
                 $result.addClass('is-ok').text(zwPangram.i18n.valid);
@@ -27,10 +27,8 @@
         });
     }
 
-    $(() => {
-        $('#zw-pangram-test-connection').on('click', testConnection);
-        if (zwPangram.tab === 'scan' && $('#zw-pangram-status').length) {
-            window.setInterval(pollStatus, 15000);
-        }
-    });
-})(jQuery);
+    $('#zw-pangram-test-connection').on('click', testConnection);
+    if ($('#zw-pangram-status').length) {
+        window.setInterval(pollStatus, 15000);
+    }
+});
