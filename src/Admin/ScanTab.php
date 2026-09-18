@@ -107,16 +107,15 @@ final class ScanTab
     private static function renderStatus(): void
     {
         $counts = (new ItemsRepository())->counts();
+        unset($counts[QueueStatus::None->value]);
         $job = BulkJob::get();
         $state = QueueState::get();
         ?>
         <h2><?php esc_html_e('Queue', 'zw-pangram'); ?></h2>
         <div class="zw-pangram-status" id="zw-pangram-status">
             <ul class="zw-pangram-counters">
-                <?php foreach (QueueStatus::cases() as $case) : ?>
-                    <?php if ($case === QueueStatus::None) { continue; } ?>
-                    <?php $key = $case->value; ?>
-                    <li><span class="zw-pangram-pill zw-pangram-pill-<?php echo esc_attr($key); ?>" data-count="<?php echo esc_attr($key); ?>"><?php echo esc_html((string) ($counts[$key] ?? 0)); ?></span> <?php echo esc_html(StatusLabels::queue($key)); ?></li>
+                <?php foreach ($counts as $key => $count) : ?>
+                    <li><span class="zw-pangram-pill zw-pangram-pill-<?php echo esc_attr($key); ?>" data-count="<?php echo esc_attr($key); ?>"><?php echo esc_html((string) $count); ?></span> <?php echo esc_html(StatusLabels::queue($key)); ?></li>
                 <?php endforeach; ?>
             </ul>
             <p id="zw-pangram-job">

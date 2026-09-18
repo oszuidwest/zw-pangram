@@ -24,11 +24,11 @@ final class StatusLabels
      */
     public static function result(string $status): string
     {
-        return match ($status) {
-            ResultStatus::Ok->value => __('OK', 'zw-pangram'),
-            ResultStatus::Failed->value => __('Failed', 'zw-pangram'),
-            ResultStatus::Skipped->value => __('Skipped', 'zw-pangram'),
-            default => $status,
+        return match (ResultStatus::tryFrom($status)) {
+            ResultStatus::Ok => __('OK', 'zw-pangram'),
+            ResultStatus::Failed => __('Failed', 'zw-pangram'),
+            ResultStatus::Skipped => __('Skipped', 'zw-pangram'),
+            null => $status,
         };
     }
 
@@ -39,14 +39,14 @@ final class StatusLabels
      */
     public static function queue(string $status): string
     {
-        return match ($status) {
-            QueueStatus::Pending->value => __('Pending', 'zw-pangram'),
-            QueueStatus::Processing->value => __('Processing', 'zw-pangram'),
-            QueueStatus::Submitted->value => __('Submitted', 'zw-pangram'),
-            QueueStatus::Done->value => __('Done', 'zw-pangram'),
-            QueueStatus::Failed->value => __('Failed', 'zw-pangram'),
-            QueueStatus::Skipped->value => __('Skipped', 'zw-pangram'),
-            default => $status,
+        return match (QueueStatus::tryFrom($status)) {
+            QueueStatus::Pending => __('Pending', 'zw-pangram'),
+            QueueStatus::Processing => __('Processing', 'zw-pangram'),
+            QueueStatus::Submitted => __('Submitted', 'zw-pangram'),
+            QueueStatus::Done => __('Done', 'zw-pangram'),
+            QueueStatus::Failed => __('Failed', 'zw-pangram'),
+            QueueStatus::Skipped => __('Skipped', 'zw-pangram'),
+            QueueStatus::None, null => $status,
         };
     }
 

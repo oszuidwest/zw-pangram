@@ -54,7 +54,7 @@ final readonly class ResultsFilters
     public static function fromRequest(array $input): self
     {
         $label = isset($input['label']) && is_string($input['label']) && in_array($input['label'], self::LABELS, true) ? $input['label'] : null;
-        $status = isset($input['status']) && is_string($input['status']) && in_array($input['status'], ResultStatus::values(), true) ? $input['status'] : null;
+        $status = isset($input['status']) && is_string($input['status']) ? ResultStatus::tryFrom($input['status'])?->value : null;
         $orderby = isset($input['orderby']) && is_string($input['orderby']) && in_array($input['orderby'], self::ORDERBY, true) ? $input['orderby'] : 'date';
         $order = isset($input['order']) && is_string($input['order']) && strtoupper($input['order']) === 'ASC' ? 'ASC' : 'DESC';
         [$from, $to] = Dates::orderedRange($input['from'] ?? null, $input['to'] ?? null);
