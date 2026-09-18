@@ -5,6 +5,7 @@
 /.nvmrc
 /.wp-env.json
 /.wp-env.tests.json
+/biome.json
 /composer.json
 /composer.lock
 /docs/
