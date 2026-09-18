@@ -79,6 +79,16 @@ final class AdminPage
         return in_array($tab, self::TABS, true) ? $tab : 'results';
     }
 
+    /** Returns the post ID of a requested result-details view, or 0. */
+    public static function detailsPostId(): int
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only navigation parameters.
+        if (!isset($_GET['view'], $_GET['post_id']) || sanitize_key((string) wp_unslash($_GET['view'])) !== ResultDetails::VIEW) {
+            return 0;
+        }
+        return max(0, (int) $_GET['post_id']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only navigation parameter.
+    }
+
     /**
      * Builds a plugin tab URL.
      *
@@ -168,9 +178,11 @@ final class AdminPage
             echo '<a class="' . esc_attr($class) . '" href="' . esc_url(self::url($key)) . '">' . esc_html($label) . '</a>';
         }
         echo '</nav>';
-        match ($tab) {
-            'scan' => ScanTab::render(),
-            'settings' => SettingsTab::render(),
+        $detailsPostId = self::detailsPostId();
+        match (true) {
+            $tab === 'scan' => ScanTab::render(),
+            $tab === 'settings' => SettingsTab::render(),
+            $detailsPostId > 0 => ResultDetails::render($detailsPostId),
             default => ResultsTab::render(),
         };
         echo '</div>';

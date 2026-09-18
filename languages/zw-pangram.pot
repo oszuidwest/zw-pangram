@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-11T21:49:19+00:00\n"
+"POT-Creation-Date: 2026-09-18T14:38:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: zw-pangram\n"
@@ -53,7 +53,7 @@ msgid "Paused by an administrator."
 msgstr ""
 
 #: src/Admin/AdminPage.php:38
-#: src/Admin/AdminPage.php:163
+#: src/Admin/AdminPage.php:173
 msgid "Pangram AI detection"
 msgstr ""
 
@@ -65,42 +65,42 @@ msgstr ""
 msgid "Results per page"
 msgstr ""
 
-#: src/Admin/AdminPage.php:106
+#: src/Admin/AdminPage.php:116
 msgid "Testing connection..."
 msgstr ""
 
-#: src/Admin/AdminPage.php:107
+#: src/Admin/AdminPage.php:117
 msgid "Connection OK. Pangram 4 is available."
 msgstr ""
 
-#: src/Admin/AdminPage.php:108
+#: src/Admin/AdminPage.php:118
 msgid "Connection failed:"
 msgstr ""
 
-#: src/Admin/AdminPage.php:121
+#: src/Admin/AdminPage.php:131
 #: src/Admin/Ajax.php:36
 #: src/Admin/Ajax.php:66
 msgid "Permission denied."
 msgstr ""
 
-#: src/Admin/AdminPage.php:148
+#: src/Admin/AdminPage.php:158
 msgid "You do not have permission to view this page."
 msgstr ""
 
-#: src/Admin/AdminPage.php:152
+#: src/Admin/AdminPage.php:162
 #: src/Plugin.php:31
 msgid "ZuidWest Pangram could not create its database table. See the error log and your database permissions."
 msgstr ""
 
-#: src/Admin/AdminPage.php:158
+#: src/Admin/AdminPage.php:168
 msgid "Results"
 msgstr ""
 
-#: src/Admin/AdminPage.php:159
+#: src/Admin/AdminPage.php:169
 msgid "Scan"
 msgstr ""
 
-#: src/Admin/AdminPage.php:160
+#: src/Admin/AdminPage.php:170
 msgid "Settings"
 msgstr ""
 
@@ -113,7 +113,7 @@ msgid "Pangram 4 is not available for this API key."
 msgstr ""
 
 #. translators: %d: user ID
-#: src/Admin/AuthorStats.php:70
+#: src/Admin/AuthorStats.php:59
 #, php-format
 msgid "User #%d"
 msgstr ""
@@ -198,47 +198,171 @@ msgstr ""
 msgid "Stored response text removed from %d rows."
 msgstr ""
 
-#: src/Admin/ResultsListTable.php:44
-msgid "Title"
+#: src/Admin/ResultDetails.php:42
+msgid "Result details"
 msgstr ""
 
+#: src/Admin/ResultDetails.php:44
+msgid "No stored Pangram result for this post."
+msgstr ""
+
+#: src/Admin/ResultDetails.php:92
+#: src/Admin/ScanTab.php:177
+msgid "Post"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:96
+#: src/Admin/ResultsListTable.php:151
+msgid "View"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:99
+#: src/Admin/ResultsListTable.php:142
+msgid "stale"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:100
+#: src/Admin/ResultsListTable.php:143
+msgid "Content changed after this scan"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:106
 #: src/Admin/ResultsListTable.php:45
 #: src/Admin/ResultsTab.php:69
 msgid "Author"
 msgstr ""
 
+#: src/Admin/ResultDetails.php:110
 #: src/Admin/ResultsListTable.php:46
 msgid "Published"
 msgstr ""
 
+#: src/Admin/ResultDetails.php:115
+#: src/Admin/ResultsListTable.php:52
+#: src/Admin/ResultsListTable.php:107
+msgid "Status"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:128
+#: src/Admin/ResultDetails.php:223
 #: src/Admin/ResultsListTable.php:47
 #: src/Admin/ResultsListTable.php:101
 msgid "Label"
 msgstr ""
 
-#: src/Admin/ResultsListTable.php:48
-#: src/Admin/ResultsListTable.php:213
-#: src/Admin/ResultsTab.php:73
-msgid "AI"
-msgstr ""
-
-#: src/Admin/ResultsListTable.php:49
-msgid "AI-assisted"
-msgstr ""
-
-#: src/Admin/ResultsListTable.php:50
-#: src/Admin/ResultsListTable.php:215
-#: src/Admin/ResultsTab.php:75
-msgid "Human"
-msgstr ""
-
+#: src/Admin/ResultDetails.php:134
 #: src/Admin/ResultsListTable.php:51
 msgid "Result"
 msgstr ""
 
-#: src/Admin/ResultsListTable.php:52
-#: src/Admin/ResultsListTable.php:107
-msgid "Status"
+#: src/Admin/ResultDetails.php:140
+msgid "Assessment"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:146
+msgid "Share of text"
+msgstr ""
+
+#. translators: 1: AI share, 2: AI-assisted share, 3: human share
+#: src/Admin/ResultDetails.php:151
+#, php-format
+msgid "AI %1$s, AI-assisted %2$s, human %3$s"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:162
+#: src/Admin/ResultDetails.php:208
+msgid "Segments"
+msgstr ""
+
+#. translators: 1: AI segments, 2: AI-assisted segments, 3: human segments
+#: src/Admin/ResultDetails.php:167
+#, php-format
+msgid "%1$d AI, %2$d AI-assisted, %3$d human"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:178
+#: src/Admin/SettingsTab.php:61
+msgid "Model"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:184
+#: src/Admin/ResultsTab.php:70
+msgid "Scanned"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:195
+#: src/Admin/ResultsListTable.php:158
+#: src/Admin/ScanTab.php:94
+msgid "Rescan"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:210
+msgid "The response of this scan is not stored."
+msgstr ""
+
+#: src/Admin/ResultDetails.php:215
+msgid "The stored response contains no segment breakdown."
+msgstr ""
+
+#: src/Admin/ResultDetails.php:224
+msgid "Confidence"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:225
+msgid "AI assistance"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:226
+msgid "Humanized"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:227
+msgid "Words"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:228
+msgid "Characters"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:229
+msgid "Text"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:249
+msgid "Yes"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:249
+msgid "No"
+msgstr ""
+
+#: src/Admin/ResultDetails.php:264
+msgid "Segment text is not stored. Enable \"Store the full response\" in the settings to keep it for future scans."
+msgstr ""
+
+#: src/Admin/ResultDetails.php:272
+msgid "Back to results"
+msgstr ""
+
+#: src/Admin/ResultsListTable.php:44
+msgid "Title"
+msgstr ""
+
+#: src/Admin/ResultsListTable.php:48
+#: src/Admin/ResultsTab.php:73
+#: src/Admin/StatusLabels.php:58
+msgid "AI"
+msgstr ""
+
+#: src/Admin/ResultsListTable.php:49
+#: src/Admin/StatusLabels.php:74
+msgid "AI-assisted"
+msgstr ""
+
+#: src/Admin/ResultsListTable.php:50
+#: src/Admin/ResultsTab.php:75
+#: src/Admin/StatusLabels.php:60
+msgid "Human"
 msgstr ""
 
 #: src/Admin/ResultsListTable.php:85
@@ -274,34 +398,16 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Admin/ResultsListTable.php:142
-msgid "stale"
-msgstr ""
-
-#: src/Admin/ResultsListTable.php:143
-msgid "Content changed after this scan"
-msgstr ""
-
 #: src/Admin/ResultsListTable.php:145
 msgid "Why is this result stale?"
 msgstr ""
 
-#: src/Admin/ResultsListTable.php:151
-msgid "View"
-msgstr ""
-
-#: src/Admin/ResultsListTable.php:158
-#: src/Admin/ScanTab.php:94
-msgid "Rescan"
+#: src/Admin/ResultsListTable.php:149
+msgid "Details"
 msgstr ""
 
 #: src/Admin/ResultsListTable.php:194
 msgid "View error details"
-msgstr ""
-
-#: src/Admin/ResultsListTable.php:214
-#: src/Admin/ResultsTab.php:74
-msgid "Mix"
 msgstr ""
 
 #: src/Admin/ResultsTab.php:26
@@ -330,16 +436,17 @@ msgstr ""
 msgid "No successful scans yet."
 msgstr ""
 
-#: src/Admin/ResultsTab.php:70
-msgid "Scanned"
-msgstr ""
-
 #: src/Admin/ResultsTab.php:71
 msgid "Avg. AI"
 msgstr ""
 
 #: src/Admin/ResultsTab.php:72
 msgid "Avg. AI-assisted"
+msgstr ""
+
+#: src/Admin/ResultsTab.php:74
+#: src/Admin/StatusLabels.php:59
+msgid "Mix"
 msgstr ""
 
 #: src/Admin/ScanTab.php:38
@@ -454,10 +561,6 @@ msgstr ""
 msgid "HTTP"
 msgstr ""
 
-#: src/Admin/ScanTab.php:177
-msgid "Post"
-msgstr ""
-
 #: src/Admin/ScanTab.php:178
 msgid "Job"
 msgstr ""
@@ -496,10 +599,6 @@ msgstr ""
 
 #: src/Admin/SettingsTab.php:55
 msgid "Test connection"
-msgstr ""
-
-#: src/Admin/SettingsTab.php:61
-msgid "Model"
 msgstr ""
 
 #: src/Admin/SettingsTab.php:64
@@ -552,7 +651,7 @@ msgstr ""
 
 #: src/Admin/StatusLabels.php:26
 #: src/Admin/StatusLabels.php:44
-#: src/Admin/StatusLabels.php:61
+#: src/Admin/StatusLabels.php:106
 msgid "Failed"
 msgstr ""
 
@@ -577,19 +676,39 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: src/Admin/StatusLabels.php:58
+#: src/Admin/StatusLabels.php:73
+msgid "AI-generated"
+msgstr ""
+
+#: src/Admin/StatusLabels.php:75
+msgid "Human-written"
+msgstr ""
+
+#: src/Admin/StatusLabels.php:88
+msgid "High"
+msgstr ""
+
+#: src/Admin/StatusLabels.php:89
+msgid "Medium"
+msgstr ""
+
+#: src/Admin/StatusLabels.php:90
+msgid "Low"
+msgstr ""
+
+#: src/Admin/StatusLabels.php:103
 msgid "Queued"
 msgstr ""
 
-#: src/Admin/StatusLabels.php:59
+#: src/Admin/StatusLabels.php:104
 msgid "Running"
 msgstr ""
 
-#: src/Admin/StatusLabels.php:60
+#: src/Admin/StatusLabels.php:105
 msgid "Succeeded"
 msgstr ""
 
-#: src/Admin/StatusLabels.php:62
+#: src/Admin/StatusLabels.php:107
 msgid "Partially completed"
 msgstr ""
 

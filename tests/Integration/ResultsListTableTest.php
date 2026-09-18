@@ -45,6 +45,8 @@ final class ResultsListTableTest extends \WP_UnitTestCase
         $title = (string) $titleMethod->invoke($table, $item);
         $status = (string) $statusMethod->invoke($table, $item, 'status');
 
+        $this->assertStringContainsString('view=details', $title);
+        $this->assertStringContainsString('post_id=42', $title);
         $this->assertStringContainsString('zw-pangram-stale-42', $title);
         $this->assertStringContainsString('Content changed after this scan', $title);
         $this->assertStringContainsString('Why is this result stale?', $title);

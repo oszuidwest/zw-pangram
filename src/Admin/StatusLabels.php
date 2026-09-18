@@ -48,6 +48,51 @@ final class StatusLabels
     }
 
     /**
+     * Returns the display label for a stored Pangram prediction.
+     *
+     * @param string $label Stored label: AI, Mixed or Human.
+     */
+    public static function label(string $label): string
+    {
+        return match ($label) {
+            'AI' => __('AI', 'zw-pangram'),
+            'Mixed' => __('Mix', 'zw-pangram'),
+            'Human' => __('Human', 'zw-pangram'),
+            default => $label,
+        };
+    }
+
+    /**
+     * Returns the display label for a Pangram segment (window) label.
+     *
+     * @param string $label API label.
+     */
+    public static function segment(string $label): string
+    {
+        return match ($label) {
+            'AI-Generated' => __('AI-generated', 'zw-pangram'),
+            'AI-Assisted' => __('AI-assisted', 'zw-pangram'),
+            'Human Written' => __('Human-written', 'zw-pangram'),
+            default => $label,
+        };
+    }
+
+    /**
+     * Returns the display label for a segment confidence level.
+     *
+     * @param string $confidence API confidence: High, Medium or Low.
+     */
+    public static function confidence(string $confidence): string
+    {
+        return match ($confidence) {
+            'High' => __('High', 'zw-pangram'),
+            'Medium' => __('Medium', 'zw-pangram'),
+            'Low' => __('Low', 'zw-pangram'),
+            default => $confidence,
+        };
+    }
+
+    /**
      * Returns the display label for a bulk-job status.
      *
      * @param string $status API status.

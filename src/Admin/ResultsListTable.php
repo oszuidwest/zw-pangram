@@ -101,7 +101,7 @@ final class ResultsListTable extends \WP_List_Table
             <select name="label" aria-label="<?php esc_attr_e('Label', 'zw-pangram'); ?>">
                 <option value=""><?php esc_html_e('All labels', 'zw-pangram'); ?></option>
                 <?php foreach (ResultsFilters::LABELS as $label) : ?>
-                    <option value="<?php echo esc_attr($label); ?>" <?php selected($f->label, $label); ?>><?php echo esc_html(self::labelName($label)); ?></option>
+                    <option value="<?php echo esc_attr($label); ?>" <?php selected($f->label, $label); ?>><?php echo esc_html(StatusLabels::label($label)); ?></option>
                 <?php endforeach; ?>
             </select>
             <select name="status" aria-label="<?php esc_attr_e('Status', 'zw-pangram'); ?>">
@@ -146,7 +146,7 @@ final class ResultsListTable extends \WP_List_Table
             ]);
         }
         $view = get_permalink($id);
-        $actions = [];
+        $actions = ['details' => '<a href="' . esc_url(ResultDetails::url($id)) . '">' . esc_html__('Details', 'zw-pangram') . '</a>'];
         if ($view) {
             $actions['view'] = '<a href="' . esc_url($view) . '">' . esc_html__('View', 'zw-pangram') . '</a>';
         }
@@ -177,7 +177,7 @@ final class ResultsListTable extends \WP_List_Table
                 return esc_html(mysql2date(get_option('date_format') . ' ' . get_option('time_format'), (string) $item['post_date']));
             case 'label':
                 $label = $item['prediction_short'];
-                return $label === null ? '-' : '<span class="zw-pangram-badge zw-pangram-badge-' . esc_attr(strtolower((string) $label)) . '">' . esc_html(self::labelName((string) $label)) . '</span>';
+                return $label === null ? '-' : '<span class="zw-pangram-badge zw-pangram-badge-' . esc_attr(strtolower((string) $label)) . '">' . esc_html(StatusLabels::label((string) $label)) . '</span>';
             case 'fraction_ai':
             case 'fraction_ai_assisted':
             case 'fraction_human':
@@ -200,20 +200,5 @@ final class ResultsListTable extends \WP_List_Table
                 return $html;
         }
         return '';
-    }
-
-    /**
-     * Translates a stored Pangram label.
-     *
-     * @param string $label Stored label.
-     */
-    private static function labelName(string $label): string
-    {
-        return match ($label) {
-            'AI' => __('AI', 'zw-pangram'),
-            'Mixed' => __('Mix', 'zw-pangram'),
-            'Human' => __('Human', 'zw-pangram'),
-            default => $label,
-        };
     }
 }
