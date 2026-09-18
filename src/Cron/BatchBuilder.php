@@ -11,6 +11,7 @@ namespace ZWPangram\Cron;
 
 use ZWPangram\Store\ItemsRepository;
 use ZWPangram\Store\QueueStatus;
+use ZWPangram\Store\ResultStatus;
 use ZWPangram\Support\Settings;
 use ZWPangram\Support\Text;
 use ZWPangram\Support\UnitEstimator;
@@ -99,7 +100,7 @@ final class BatchBuilder
                 $this->repo->writeSkipped($row, sprintf('Too short: %d words, minimum is %d.', $words, (int) $settings['min_words']));
                 continue;
             }
-            if (!$row['force'] && $row['result_status'] === 'ok' && !$row['result_stale'] && $row['result_hash'] === $hash) {
+            if (!$row['force'] && $row['result_status'] === ResultStatus::Ok->value && !$row['result_stale'] && $row['result_hash'] === $hash) {
                 $this->repo->markSkippedInQueue($row, 'unchanged');
                 continue;
             }

@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace ZWPangram\Admin;
 
+use ZWPangram\Store\QueueStatus;
+use ZWPangram\Store\ResultStatus;
+
 defined('ABSPATH') || exit;
 
 if (!class_exists('WP_List_Table')) {
@@ -106,7 +109,7 @@ final class ResultsListTable extends \WP_List_Table
             </select>
             <select name="status" aria-label="<?php esc_attr_e('Status', 'zw-pangram'); ?>">
                 <option value=""><?php esc_html_e('All statuses', 'zw-pangram'); ?></option>
-                <?php foreach (ResultsFilters::STATUSES as $status) : ?>
+                <?php foreach (ResultStatus::values() as $status) : ?>
                     <option value="<?php echo esc_attr($status); ?>" <?php selected($f->status, $status); ?>><?php echo esc_html(StatusLabels::result($status)); ?></option>
                 <?php endforeach; ?>
             </select>
@@ -194,7 +197,7 @@ final class ResultsListTable extends \WP_List_Table
                         'label' => __('View error details', 'zw-pangram'),
                     ]);
                 }
-                if (in_array($item['queue_status'], ['pending', 'processing', 'submitted'], true)) {
+                if (in_array(QueueStatus::tryFrom((string) $item['queue_status']), QueueStatus::IN_FLIGHT, true)) {
                     $html .= ' <small>(' . esc_html(StatusLabels::queue((string) $item['queue_status'])) . ')</small>';
                 }
                 return $html;

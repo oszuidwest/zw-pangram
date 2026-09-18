@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace ZWPangram\Admin;
 
+use ZWPangram\Store\QueueStatus;
+use ZWPangram\Store\ResultStatus;
+
 /**
  * Keeps stored and API status values stable while localizing their display.
  */
@@ -22,9 +25,9 @@ final class StatusLabels
     public static function result(string $status): string
     {
         return match ($status) {
-            'ok' => __('OK', 'zw-pangram'),
-            'failed' => __('Failed', 'zw-pangram'),
-            'skipped' => __('Skipped', 'zw-pangram'),
+            ResultStatus::Ok->value => __('OK', 'zw-pangram'),
+            ResultStatus::Failed->value => __('Failed', 'zw-pangram'),
+            ResultStatus::Skipped->value => __('Skipped', 'zw-pangram'),
             default => $status,
         };
     }
@@ -37,12 +40,12 @@ final class StatusLabels
     public static function queue(string $status): string
     {
         return match ($status) {
-            'pending' => __('Pending', 'zw-pangram'),
-            'processing' => __('Processing', 'zw-pangram'),
-            'submitted' => __('Submitted', 'zw-pangram'),
-            'done' => __('Done', 'zw-pangram'),
-            'failed' => __('Failed', 'zw-pangram'),
-            'skipped' => __('Skipped', 'zw-pangram'),
+            QueueStatus::Pending->value => __('Pending', 'zw-pangram'),
+            QueueStatus::Processing->value => __('Processing', 'zw-pangram'),
+            QueueStatus::Submitted->value => __('Submitted', 'zw-pangram'),
+            QueueStatus::Done->value => __('Done', 'zw-pangram'),
+            QueueStatus::Failed->value => __('Failed', 'zw-pangram'),
+            QueueStatus::Skipped->value => __('Skipped', 'zw-pangram'),
             default => $status,
         };
     }
