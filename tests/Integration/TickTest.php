@@ -353,6 +353,36 @@ final class TickTest extends PluginTestCase
         $lock->release($token);
     }
 
+    public function test_crash_after_job_persisted_recovers_only_accepted_rows(): void
+    {
+        [$a, $b, $c] = [$this->post(), $this->post(), $this->post()];
+        $this->repo->upsertPending([$a, $b, $c], false);
+        // b is rejected at submission and c is never mentioned in the response.
+        $this->client->queue('submitBulk', FakeClient::accepted('b1', [$a], [$b]));
+        $crash = static function (): void {
+            throw new \RuntimeException('simulated crash');
+        };
+        add_action('add_option_' . BulkJob::OPTION, $crash);
+        try {
+            $this->tick()->run();
+            $this->fail('The simulated crash did not interrupt the tick.');
+        } catch (\RuntimeException $e) {
+            $this->assertSame('simulated crash', $e->getMessage());
+        } finally {
+            remove_action('add_option_' . BulkJob::OPTION, $crash);
+        }
+        $this->assertNotNull(BulkJob::pending());
+        $this->assertRow($a, ['queue_status' => 'processing']);
+        $this->assertRow($b, ['queue_status' => 'processing']);
+        $this->assertRow($c, ['queue_status' => 'processing']);
+
+        $this->assertSame('poll-wait', $this->tick()->run());
+        $this->assertRow($a, ['queue_status' => 'submitted', 'bulk_id' => 'b1']);
+        $this->assertRow($b, ['queue_status' => 'pending', 'bulk_id' => null, 'claim_token' => null]);
+        $this->assertRow($c, ['queue_status' => 'pending', 'bulk_id' => null, 'claim_token' => null]);
+        $this->assertNull(BulkJob::pending());
+    }
+
     public function test_orphan_results_are_logged_not_written(): void
     {
         $a = $this->post();

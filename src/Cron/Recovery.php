@@ -33,17 +33,29 @@ final class Recovery
         $job = BulkJob::get();
         $pending = BulkJob::pending();
 
-        // Link processing rows to a job persisted before interruption.
+        // Settle processing rows of a job persisted before interruption: accepted rows join the job, the rest go back to the queue.
         if ($job !== null) {
-            $ids = [];
+            $accepted = [];
+            $unaccepted = [];
             foreach ($this->repo->byToken($job['claim_token']) as $row) {
-                if ($row['queue_status'] === QueueStatus::Processing->value) {
-                    $ids[] = $row['post_id'];
+                if ($row['queue_status'] !== QueueStatus::Processing->value) {
+                    continue;
+                }
+                // Jobs stored before post_ids existed can only be linked by token.
+                if ($job['post_ids'] === null || in_array($row['post_id'], $job['post_ids'], true)) {
+                    $accepted[] = $row['post_id'];
+                } else {
+                    $unaccepted[] = $row['post_id'];
                 }
             }
-            if ($ids !== []) {
-                $this->repo->markSubmitted($job['claim_token'], $ids, $job['bulk_id']);
-                ErrorLog::add(sprintf('Recovered %d rows into bulk job after an interrupted submission.', count($ids)), ['bulk_id' => $job['bulk_id']]);
+            if ($accepted !== []) {
+                $this->repo->markSubmitted($job['claim_token'], $accepted, $job['bulk_id']);
+                ErrorLog::add(sprintf('Recovered %d rows into bulk job after an interrupted submission.', count($accepted)), ['bulk_id' => $job['bulk_id']]);
+            }
+            if ($unaccepted !== []) {
+                // Their rejection or omission was lost with the crash; the next submission settles them for real.
+                $this->repo->release($job['claim_token'], $unaccepted);
+                ErrorLog::add(sprintf('Requeued %d rows the bulk job did not accept after an interrupted submission.', count($unaccepted)), ['bulk_id' => $job['bulk_id']]);
             }
             if ($pending !== null && $pending['claim_token'] === $job['claim_token']) {
                 BulkJob::clearPending();

@@ -225,7 +225,7 @@ final class Tick
 
         $bulkId = (string) $response['bulk_id'];
         $acceptedIds = $this->stagedPostIds((array) ($response['accepted_items'] ?? []), $staged);
-        BulkJob::open($bulkId, $token, Settings::apiKeyFingerprint(), count($acceptedIds));
+        BulkJob::open($bulkId, $token, Settings::apiKeyFingerprint(), $acceptedIds);
 
         /** @var list<array<string, mixed>> $failedItems Validated failed items. */
         $failedItems = (array) ($response['failed_items'] ?? []);
