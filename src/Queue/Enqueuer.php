@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ZWPangram\Queue;
 
 use ZWPangram\Store\ItemsRepository;
+use ZWPangram\Store\QueueStatus;
 use ZWPangram\Support\Dates;
 use ZWPangram\Support\Settings;
 
@@ -94,7 +95,7 @@ final class Enqueuer
             $totals['already_queued'] += count($queued);
             if ($filters->force) {
                 // Forced in-flight rows request a rescan; pending rows remain unchanged.
-                $inFlight = array_keys(array_filter($queued, static fn (string $status): bool => $status !== 'pending'));
+                $inFlight = array_keys(array_filter($queued, static fn (string $status): bool => $status !== QueueStatus::Pending->value));
                 $this->repo->upsertPending($inFlight, true);
             }
 

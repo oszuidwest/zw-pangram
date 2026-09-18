@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ZWPangram\Admin;
 
 use ZWPangram\Store\ItemsRepository;
+use ZWPangram\Store\ResultStatus;
 
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reporting aggregate over the plugin table; see docs/performance.md.
 // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders -- SQL is built from constants plus generated placeholder lists and always prepared.
@@ -32,7 +33,7 @@ final class AuthorStats
         global $wpdb;
         // Match the results table's successful-scan and date-range scope.
         $statsFilters = ResultsFilters::fromRequest([
-            'status' => 'ok',
+            'status' => ResultStatus::Ok->value,
             'from' => $filters->from,
             'to' => $filters->to,
         ]);
