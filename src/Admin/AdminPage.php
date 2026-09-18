@@ -79,16 +79,6 @@ final class AdminPage
         return in_array($tab, self::TABS, true) ? $tab : 'results';
     }
 
-    /** Returns the post ID of a requested result-details view, or 0. */
-    public static function detailsPostId(): int
-    {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only navigation parameters.
-        if (!isset($_GET['view'], $_GET['post_id']) || sanitize_key((string) wp_unslash($_GET['view'])) !== ResultDetails::VIEW) {
-            return 0;
-        }
-        return max(0, (int) $_GET['post_id']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only navigation parameter.
-    }
-
     /**
      * Builds a plugin tab URL.
      *
@@ -136,16 +126,20 @@ final class AdminPage
     /**
      * Prints a nonce-protected, single-button admin-post form.
      *
-     * @param string $action Admin-post action.
-     * @param string $nonce  Nonce action.
-     * @param string $label  Button label.
+     * @param string                    $action Admin-post action.
+     * @param string                    $nonce  Nonce action.
+     * @param string                    $label  Button label.
+     * @param array<string, int|string> $hidden Additional hidden fields.
      */
-    public static function actionForm(string $action, string $nonce, string $label): void
+    public static function actionForm(string $action, string $nonce, string $label, array $hidden = []): void
     {
         ?>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="zw-pangram-inline-form">
             <?php wp_nonce_field($nonce); ?>
             <input type="hidden" name="action" value="<?php echo esc_attr($action); ?>">
+            <?php foreach ($hidden as $name => $value) : ?>
+                <input type="hidden" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr((string) $value); ?>">
+            <?php endforeach; ?>
             <?php submit_button($label, 'secondary', $action . '_submit', false); ?>
         </form>
         <?php
@@ -178,11 +172,9 @@ final class AdminPage
             echo '<a class="' . esc_attr($class) . '" href="' . esc_url(self::url($key)) . '">' . esc_html($label) . '</a>';
         }
         echo '</nav>';
-        $detailsPostId = self::detailsPostId();
-        match (true) {
-            $tab === 'scan' => ScanTab::render(),
-            $tab === 'settings' => SettingsTab::render(),
-            $detailsPostId > 0 => ResultDetails::render($detailsPostId),
+        match ($tab) {
+            'scan' => ScanTab::render(),
+            'settings' => SettingsTab::render(),
             default => ResultsTab::render(),
         };
         echo '</div>';
