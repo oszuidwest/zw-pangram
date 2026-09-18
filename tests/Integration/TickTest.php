@@ -371,14 +371,15 @@ final class TickTest extends PluginTestCase
         } finally {
             remove_action('add_option_' . BulkJob::OPTION, $crash);
         }
+        // Rejected and unmentioned rows were settled before the job was persisted; only a is left for Recovery.
         $this->assertNotNull(BulkJob::pending());
         $this->assertRow($a, ['queue_status' => 'processing']);
-        $this->assertRow($b, ['queue_status' => 'processing']);
-        $this->assertRow($c, ['queue_status' => 'processing']);
+        $this->assertRow($b, ['queue_status' => 'failed', 'claim_token' => null]);
+        $this->assertRow($c, ['queue_status' => 'pending', 'bulk_id' => null, 'claim_token' => null]);
 
         $this->assertSame('poll-wait', $this->tick()->run());
         $this->assertRow($a, ['queue_status' => 'submitted', 'bulk_id' => 'b1']);
-        $this->assertRow($b, ['queue_status' => 'pending', 'bulk_id' => null, 'claim_token' => null]);
+        $this->assertRow($b, ['queue_status' => 'failed']);
         $this->assertRow($c, ['queue_status' => 'pending', 'bulk_id' => null, 'claim_token' => null]);
         $this->assertNull(BulkJob::pending());
     }

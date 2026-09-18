@@ -16,7 +16,7 @@ use ZWPangram\Support\Settings;
  *
  * @phpstan-type Job array{
  *   bulk_id: string, claim_token: string, key_fingerprint: string, model: string, submitted_at: int, item_count: int,
- *   post_ids: list<int>|null, status: string, results_offset: int, next_poll_at: int, poll_failures: int
+ *   status: string, results_offset: int, next_poll_at: int, poll_failures: int
  * }
  * @phpstan-type Pending array{claim_token: string, started_at: int}
  */
@@ -47,7 +47,6 @@ final class BulkJob
             'model' => (string) ($job['model'] ?? Settings::MODEL),
             'submitted_at' => (int) ($job['submitted_at'] ?? 0),
             'item_count' => (int) ($job['item_count'] ?? 0),
-            'post_ids' => isset($job['post_ids']) && is_array($job['post_ids']) ? array_values(array_map('intval', $job['post_ids'])) : null,
             'status' => (string) ($job['status'] ?? 'queued'),
             'results_offset' => (int) ($job['results_offset'] ?? 0),
             'next_poll_at' => (int) ($job['next_poll_at'] ?? 0),
@@ -56,16 +55,14 @@ final class BulkJob
     }
 
     /**
-     * Stores an accepted bulk job together with the accepted post IDs.
+     * Stores an accepted bulk job.
      *
-     * The IDs let Recovery link exactly the accepted rows when the process dies before markSubmitted().
-     *
-     * @param string    $bulkId         Bulk ID.
-     * @param string    $claimToken     Submitted claim token.
-     * @param string    $keyFingerprint API key fingerprint.
-     * @param list<int> $postIds        Accepted post IDs.
+     * @param string $bulkId         Bulk ID.
+     * @param string $claimToken     Submitted claim token.
+     * @param string $keyFingerprint API key fingerprint.
+     * @param int    $itemCount      Accepted item count.
      */
-    public static function open(string $bulkId, string $claimToken, string $keyFingerprint, array $postIds): void
+    public static function open(string $bulkId, string $claimToken, string $keyFingerprint, int $itemCount): void
     {
         update_option(self::OPTION, [
             'bulk_id' => $bulkId,
@@ -73,8 +70,7 @@ final class BulkJob
             'key_fingerprint' => $keyFingerprint,
             'model' => Settings::MODEL,
             'submitted_at' => time(),
-            'item_count' => count($postIds),
-            'post_ids' => $postIds,
+            'item_count' => $itemCount,
             'status' => 'queued',
             'results_offset' => 0,
             'next_poll_at' => time() + MINUTE_IN_SECONDS,
