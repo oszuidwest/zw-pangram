@@ -39,11 +39,13 @@ final class ResultDetails
     /** Returns the post ID requested through a details URL, or 0. */
     public static function requestedPostId(): int
     {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only navigation parameters.
-        if (!isset($_GET['view'], $_GET['post_id']) || sanitize_key((string) wp_unslash($_GET['view'])) !== self::VIEW) {
+        $view = $_GET['view'] ?? null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput -- Read-only parameter, validated below.
+        $postId = $_GET['post_id'] ?? null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput -- Read-only parameter, validated below.
+        if (!is_string($view) || !is_string($postId) || sanitize_key(wp_unslash($view)) !== self::VIEW) {
             return 0;
         }
-        return max(0, (int) $_GET['post_id']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only navigation parameter.
+        $postId = wp_unslash($postId);
+        return ctype_digit($postId) ? (int) $postId : 0;
     }
 
     /**

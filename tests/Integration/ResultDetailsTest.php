@@ -8,6 +8,23 @@ use ZWPangram\Tests\Support\PluginTestCase;
 
 final class ResultDetailsTest extends PluginTestCase
 {
+    public function test_requested_post_id_accepts_only_digit_strings(): void
+    {
+        $originalGet = $_GET;
+        try {
+            $_GET = ['view' => 'details', 'post_id' => '42'];
+            $this->assertSame(42, ResultDetails::requestedPostId());
+
+            $_GET['post_id'] = ['42'];
+            $this->assertSame(0, ResultDetails::requestedPostId());
+
+            $_GET['post_id'] = '42x';
+            $this->assertSame(0, ResultDetails::requestedPostId());
+        } finally {
+            $_GET = $originalGet;
+        }
+    }
+
     public function test_renders_summary_and_segment_metadata_without_stored_text(): void
     {
         $a = $this->post('One two three four five six seven eight nine ten.', ['post_title' => 'Council debates waterfront plan']);
