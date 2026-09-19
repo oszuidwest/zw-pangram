@@ -92,7 +92,7 @@ final class ItemsRepository
   updated_at datetime NOT NULL,
   PRIMARY KEY  (id),
   UNIQUE KEY post_id (post_id),
-  KEY queue_next (queue_status,next_attempt_at,id),
+  KEY queue_claim (queue_status,queued_at,id,next_attempt_at),
   KEY claim (claim_token),
   KEY bulk (bulk_id),
   KEY result_ai (result_status,fraction_ai),
@@ -107,6 +107,15 @@ final class ItemsRepository
     {
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta(self::schema());
+
+        global $wpdb;
+        $hasClaimIndex = $wpdb->get_var($wpdb->prepare('SHOW INDEX FROM %i WHERE Key_name = %s', self::tableName(), 'queue_claim')) !== null;
+        $hasLegacyIndex = $wpdb->get_var($wpdb->prepare('SHOW INDEX FROM %i WHERE Key_name = %s', self::tableName(), 'queue_next')) !== null;
+        if ($hasClaimIndex && $hasLegacyIndex) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- Removes the superseded schema-v1 index only after its replacement exists.
+            $wpdb->query($wpdb->prepare('ALTER TABLE %i DROP INDEX %i', self::tableName(), 'queue_next'));
+        }
+
         self::$tableExists = null;
     }
 
@@ -282,7 +291,7 @@ final class ItemsRepository
     }
 
     /**
-     * Atomically claims pending items that are due.
+     * Atomically claims due pending items in current-enqueue FIFO order.
      *
      * @param int    $limit Maximum rows.
      * @param string $token New claim token.
@@ -295,7 +304,7 @@ final class ItemsRepository
         $wpdb->query($wpdb->prepare(
             "UPDATE %i SET queue_status = 'processing', claim_token = %s, claimed_at = %s, updated_at = %s
              WHERE queue_status = 'pending' AND (next_attempt_at IS NULL OR next_attempt_at <= %s)
-             ORDER BY id ASC LIMIT %d",
+             ORDER BY queued_at ASC, id ASC LIMIT %d",
             self::tableName(),
             $token,
             $now,

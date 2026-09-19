@@ -37,6 +37,8 @@ define('ZW_PANGRAM_API_KEY', 'your-key');
 
 WP-Cron processes the queue in the background. On low-traffic sites, configure a system cron to run WordPress cron regularly.
 
+Eligible posts are claimed in first-in, first-out order based on when they most recently entered the queue. Requeued completed posts join the back of the queue. Deferred retries keep their position but are skipped until their next attempt is due.
+
 ## Stored responses
 
 Every successful scan stores Pangram's response so that **Details** on a result can show the long-form assessment and the per-segment breakdown: label, confidence, AI-assistance score, humanizer flag, word count and character range per segment. By default the analyzed text is stripped from the response before it is stored, so the details view shows segment metadata only. Enable **Store the full response** under Settings to keep the segment text for future scans; **Purge stored response text** removes it again from every row. Pangram Labs receives the full text of every queued post regardless of this setting.

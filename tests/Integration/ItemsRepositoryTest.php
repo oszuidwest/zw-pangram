@@ -34,6 +34,24 @@ final class ItemsRepositoryTest extends PluginTestCase
         $this->assertSame([], $this->repo->claim(2, 'tokenC'));
     }
 
+    public function test_reenqueued_terminal_row_joins_the_back_of_the_queue(): void
+    {
+        global $wpdb;
+        $old = $this->post();
+        $new = $this->post();
+
+        $this->repo->upsertPending([$old], false);
+        $this->repo->markSkippedInQueue($this->row($old), 'done');
+        $this->repo->upsertPending([$new], false);
+        $this->repo->upsertPending([$old], true);
+
+        $wpdb->update(ItemsRepository::tableName(), ['queued_at' => '2026-01-01 00:00:01'], ['post_id' => $new]);
+        $wpdb->update(ItemsRepository::tableName(), ['queued_at' => '2026-01-01 00:00:02'], ['post_id' => $old]);
+
+        $claimed = $this->repo->claim(1, 'fifo');
+        $this->assertSame([$new], array_column($claimed, 'post_id'));
+    }
+
     public function test_upsert_does_not_touch_in_flight_rows_except_rescan_flag_on_force(): void
     {
         $p = $this->post();
