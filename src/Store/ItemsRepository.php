@@ -175,7 +175,7 @@ final class ItemsRepository
     public function byToken(string $token): array
     {
         global $wpdb;
-        return self::castAll($wpdb->get_results($wpdb->prepare('SELECT ' . self::LIST_COLUMNS . ' FROM %i WHERE claim_token = %s ORDER BY id ASC', self::tableName(), $token), ARRAY_A));
+        return self::castAll($wpdb->get_results($wpdb->prepare('SELECT ' . self::LIST_COLUMNS . ' FROM %i WHERE claim_token = %s ORDER BY queued_at ASC, id ASC', self::tableName(), $token), ARRAY_A));
     }
 
     /**

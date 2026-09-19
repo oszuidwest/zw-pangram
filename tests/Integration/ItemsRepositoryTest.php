@@ -46,7 +46,7 @@ final class ItemsRepositoryTest extends PluginTestCase
         $wpdb->update(ItemsRepository::tableName(), ['queued_at' => '2026-01-01 00:00:00'], ['post_id' => $new]);
         $this->repo->upsertPending([$old], true);
 
-        $this->assertSame([$new], array_column($this->repo->claim(1, 'fifo'), 'post_id'));
+        $this->assertSame([$new, $old], array_column($this->repo->claim(2, 'fifo'), 'post_id'));
     }
 
     public function test_reenqueued_pending_row_keeps_its_queue_position(): void
