@@ -108,10 +108,10 @@ final class ItemsRepository
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta(self::schema());
 
+        // dbDelta adds indexes but never drops them; retire the schema-v1 index once its replacement exists.
         global $wpdb;
-        $hasClaimIndex = $wpdb->get_var($wpdb->prepare('SHOW INDEX FROM %i WHERE Key_name = %s', self::tableName(), 'queue_claim')) !== null;
-        $hasLegacyIndex = $wpdb->get_var($wpdb->prepare('SHOW INDEX FROM %i WHERE Key_name = %s', self::tableName(), 'queue_next')) !== null;
-        if ($hasClaimIndex && $hasLegacyIndex) {
+        $indexes = array_column((array) $wpdb->get_results($wpdb->prepare("SHOW INDEX FROM %i WHERE Key_name IN ('queue_claim', 'queue_next')", self::tableName()), ARRAY_A), 'Key_name');
+        if (in_array('queue_claim', $indexes, true) && in_array('queue_next', $indexes, true)) {
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- Removes the superseded schema-v1 index only after its replacement exists.
             $wpdb->query($wpdb->prepare('ALTER TABLE %i DROP INDEX %i', self::tableName(), 'queue_next'));
         }
@@ -259,7 +259,7 @@ final class ItemsRepository
     /**
      * Queues posts while preserving in-flight work.
      *
-     * Forced in-flight posts are marked for a follow-up scan.
+     * Forced in-flight posts are marked for a follow-up scan. Rows already waiting keep their queue position.
      *
      * @param list<int> $postIds Post IDs.
      * @param bool      $force   Force a rescan of unchanged content.
@@ -284,7 +284,7 @@ final class ItemsRepository
               attempts         = IF(queue_status IN ('processing','submitted'), attempts, 0),
               next_attempt_at  = IF(queue_status IN ('processing','submitted'), next_attempt_at, NULL),
               last_error       = IF(queue_status IN ('processing','submitted'), last_error, NULL),
-              queued_at        = IF(queue_status IN ('processing','submitted'), queued_at, VALUES(queued_at)),
+              queued_at        = IF(queue_status IN ('pending','processing','submitted'), queued_at, VALUES(queued_at)),
               updated_at       = VALUES(updated_at),
               queue_status     = IF(queue_status IN ('processing','submitted'), queue_status, 'pending')";
         $wpdb->query($wpdb->prepare($sql, ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Generated placeholder list.

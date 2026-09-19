@@ -37,7 +37,7 @@ define('ZW_PANGRAM_API_KEY', 'your-key');
 
 WP-Cron processes the queue in the background. On low-traffic sites, configure a system cron to run WordPress cron regularly.
 
-Eligible posts are claimed in first-in, first-out order based on when they most recently entered the queue. Requeued completed posts join the back of the queue. Deferred retries keep their position but are skipped until their next attempt is due.
+Posts are scanned in the order they were queued. Queuing a completed post again puts it at the back of the queue.
 
 ## Stored responses
 
