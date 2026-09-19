@@ -1,17 +1,15 @@
-# Copyright (C) 2026 Streekomroep ZuidWest
-# This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
 "Project-Id-Version: ZuidWest Pangram 0.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/oszuidwest/zw-pangram/issues\n"
-"POT-Creation-Date: 2026-09-11T21:49:19+00:00\n"
-"PO-Revision-Date: 2026-09-11 21:00+0000\n"
 "Last-Translator: Raymond Mens\n"
 "Language-Team: Dutch\n"
-"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-11T21:49:19+00:00\n"
+"PO-Revision-Date: 2026-09-18 14:45+0000\n"
+"Language: nl_NL\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: zw-pangram\n"
 
@@ -27,12 +25,8 @@ msgstr "https://github.com/oszuidwest/zw-pangram"
 
 #. Description of the plugin
 #: zw-pangram.php
-msgid ""
-"Scores existing posts with the Pangram Labs AI text detector via its bulk "
-"API and reports the results in wp-admin."
-msgstr ""
-"Beoordeelt bestaande berichten met de AI-tekstdetector van Pangram Labs via "
-"de bulk-API en toont de resultaten in wp-admin."
+msgid "Scores existing posts with the Pangram Labs AI text detector via its bulk API and reports the results in wp-admin."
+msgstr "Beoordeelt bestaande berichten met de AI-tekstdetector van Pangram Labs via de bulk-API en toont de resultaten in wp-admin."
 
 #. Author of the plugin
 #: zw-pangram.php
@@ -40,10 +34,8 @@ msgid "Streekomroep ZuidWest"
 msgstr "Streekomroep ZuidWest"
 
 #: src/Activation.php:36
-msgid ""
-"ZuidWest Pangram does not support network activation. Activate it per site instead."
-msgstr ""
-"ZuidWest Pangram ondersteunt geen netwerkactivatie. Activeer de plugin per site."
+msgid "ZuidWest Pangram does not support network activation. Activate it per site instead."
+msgstr "ZuidWest Pangram ondersteunt geen netwerkactivatie. Activeer de plugin per site."
 
 #: src/Activation.php:37
 msgid "Plugin activation failed"
@@ -59,7 +51,8 @@ msgstr "Gevonden %1$d, ongewijzigd %2$d, al in de wachtrij %3$d."
 msgid "Paused by an administrator."
 msgstr "Gepauzeerd door een beheerder."
 
-#: src/Admin/AdminPage.php:38 src/Admin/AdminPage.php:163
+#: src/Admin/AdminPage.php:38
+#: src/Admin/AdminPage.php:173
 msgid "Pangram AI detection"
 msgstr "Pangram AI-detectie"
 
@@ -71,43 +64,42 @@ msgstr "Pangram"
 msgid "Results per page"
 msgstr "Resultaten per pagina"
 
-#: src/Admin/AdminPage.php:106
+#: src/Admin/AdminPage.php:116
 msgid "Testing connection..."
 msgstr "Verbinding wordt getest..."
 
-#: src/Admin/AdminPage.php:107
+#: src/Admin/AdminPage.php:117
 msgid "Connection OK. Pangram 4 is available."
 msgstr "Verbinding geslaagd. Pangram 4 is beschikbaar."
 
-#: src/Admin/AdminPage.php:108
+#: src/Admin/AdminPage.php:118
 msgid "Connection failed:"
 msgstr "Verbinding mislukt:"
 
-#: src/Admin/AdminPage.php:121 src/Admin/Ajax.php:36 src/Admin/Ajax.php:66
+#: src/Admin/AdminPage.php:131
+#: src/Admin/Ajax.php:36
+#: src/Admin/Ajax.php:66
 msgid "Permission denied."
 msgstr "Je hebt hiervoor geen toestemming."
 
-#: src/Admin/AdminPage.php:148
+#: src/Admin/AdminPage.php:158
 msgid "You do not have permission to view this page."
 msgstr "Je hebt geen toestemming om deze pagina te bekijken."
 
-#: src/Admin/AdminPage.php:152 src/Plugin.php:31
-msgid ""
-"ZuidWest Pangram could not create its database table. See the error log and your "
-"database permissions."
-msgstr ""
-"ZuidWest Pangram kon de databasetabel niet aanmaken. Controleer het foutenlogboek "
-"en de databaserechten."
+#: src/Admin/AdminPage.php:162
+#: src/Plugin.php:31
+msgid "ZuidWest Pangram could not create its database table. See the error log and your database permissions."
+msgstr "ZuidWest Pangram kon de databasetabel niet aanmaken. Controleer het foutenlogboek en de databaserechten."
 
-#: src/Admin/AdminPage.php:158
+#: src/Admin/AdminPage.php:168
 msgid "Results"
 msgstr "Resultaten"
 
-#: src/Admin/AdminPage.php:159
+#: src/Admin/AdminPage.php:169
 msgid "Scan"
 msgstr "Scannen"
 
-#: src/Admin/AdminPage.php:160
+#: src/Admin/AdminPage.php:170
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -120,18 +112,14 @@ msgid "Pangram 4 is not available for this API key."
 msgstr "Pangram 4 is niet beschikbaar voor deze API-sleutel."
 
 #. translators: %d: user ID
-#: src/Admin/AuthorStats.php:70
+#: src/Admin/AuthorStats.php:59
 #, php-format
 msgid "User #%d"
 msgstr "Gebruiker #%d"
 
 #: src/Admin/Notices.php:26
-msgid ""
-"No Pangram API key is configured. Add one in the Settings tab; the queue "
-"stays paused until then."
-msgstr ""
-"Er is geen Pangram API-sleutel ingesteld. Voeg er een toe op het tabblad "
-"Instellingen; tot die tijd blijft de wachtrij gepauzeerd."
+msgid "No Pangram API key is configured. Add one in the Settings tab; the queue stays paused until then."
+msgstr "Er is geen Pangram API-sleutel ingesteld. Voeg er een toe op het tabblad Instellingen; tot die tijd blijft de wachtrij gepauzeerd."
 
 #. translators: %s: error message
 #: src/Admin/Notices.php:32
@@ -140,24 +128,14 @@ msgid "The cron event could not be scheduled: %s"
 msgstr "Het cron-event kon niet worden gepland: %s"
 
 #: src/Admin/Notices.php:35
-msgid ""
-"DISABLE_WP_CRON is enabled. Make sure a system cron runs wp-cron.php (or "
-"\"wp cron event run --due-now\") every minute, otherwise the queue will not "
-"move."
-msgstr ""
-"DISABLE_WP_CRON is ingeschakeld. Zorg dat een systeemcron elke minuut wp-"
-"cron.php (of \"wp cron event run --due-now\") uitvoert; anders wordt de "
-"wachtrij niet verwerkt."
+msgid "DISABLE_WP_CRON is enabled. Make sure a system cron runs wp-cron.php (or \"wp cron event run --due-now\") every minute, otherwise the queue will not move."
+msgstr "DISABLE_WP_CRON is ingeschakeld. Zorg dat een systeemcron elke minuut wp-cron.php (of \"wp cron event run --due-now\") uitvoert; anders wordt de wachtrij niet verwerkt."
 
 #. translators: %s: human readable time
 #: src/Admin/Notices.php:38
 #, php-format
-msgid ""
-"The queue tick last ran %s ago. WP-Cron only runs on page views; consider a "
-"system cron."
-msgstr ""
-"De laatste verwerkingsronde van de wachtrij was %s geleden. WP-Cron wordt "
-"alleen bij paginabezoeken uitgevoerd; overweeg een systeemcron."
+msgid "The queue tick last ran %s ago. WP-Cron only runs on page views; consider a system cron."
+msgstr "De laatste verwerkingsronde van de wachtrij was %s geleden. WP-Cron wordt alleen bij paginabezoeken uitgevoerd; overweeg een systeemcron."
 
 #. translators: %s: reason
 #: src/Admin/Notices.php:45
@@ -170,12 +148,8 @@ msgid "The queue is paused."
 msgstr "De wachtrij is gepauzeerd."
 
 #: src/Admin/Notices.php:52
-msgid ""
-"The open Pangram job was created with a different API key. Restore that key, "
-"or abandon the job in the Scan tab."
-msgstr ""
-"De openstaande Pangram-taak is aangemaakt met een andere API-sleutel. Zet "
-"die sleutel terug of breek de taak af op het tabblad Scannen."
+msgid "The open Pangram job was created with a different API key. Restore that key, or abandon the job in the Scan tab."
+msgstr "De openstaande Pangram-taak is aangemaakt met een andere API-sleutel. Zet die sleutel terug of breek de taak af op het tabblad Scannen."
 
 #. translators: 1: number of posts, 2: details
 #: src/Admin/Notices.php:69
@@ -227,37 +201,49 @@ msgstr "Opgeslagen responstekst uit %d rijen verwijderd."
 msgid "Title"
 msgstr "Titel"
 
-#: src/Admin/ResultsListTable.php:45 src/Admin/ResultsTab.php:69
+#: src/Admin/ResultDetails.php:106
+#: src/Admin/ResultsListTable.php:45
+#: src/Admin/ResultsTab.php:69
 msgid "Author"
 msgstr "Auteur"
 
+#: src/Admin/ResultDetails.php:110
 #: src/Admin/ResultsListTable.php:46
 msgid "Published"
 msgstr "Gepubliceerd"
 
-#: src/Admin/ResultsListTable.php:47 src/Admin/ResultsListTable.php:101
+#: src/Admin/ResultDetails.php:128
+#: src/Admin/ResultDetails.php:223
+#: src/Admin/ResultsListTable.php:47
+#: src/Admin/ResultsListTable.php:101
 msgid "Label"
 msgstr "Label"
 
-#: src/Admin/ResultsListTable.php:48 src/Admin/ResultsListTable.php:213
+#: src/Admin/ResultsListTable.php:48
 #: src/Admin/ResultsTab.php:73
+#: src/Admin/StatusLabels.php:58
 msgid "AI"
 msgstr "AI"
 
 #: src/Admin/ResultsListTable.php:49
+#: src/Admin/StatusLabels.php:74
 msgid "AI-assisted"
 msgstr "AI-ondersteund"
 
-#: src/Admin/ResultsListTable.php:50 src/Admin/ResultsListTable.php:215
+#: src/Admin/ResultsListTable.php:50
 #: src/Admin/ResultsTab.php:75
+#: src/Admin/StatusLabels.php:60
 msgid "Human"
 msgstr "Mens"
 
+#: src/Admin/ResultDetails.php:134
 #: src/Admin/ResultsListTable.php:51
 msgid "Result"
 msgstr "Resultaat"
 
-#: src/Admin/ResultsListTable.php:52 src/Admin/ResultsListTable.php:107
+#: src/Admin/ResultDetails.php:115
+#: src/Admin/ResultsListTable.php:52
+#: src/Admin/ResultsListTable.php:107
 msgid "Status"
 msgstr "Status"
 
@@ -281,7 +267,8 @@ msgstr "Alle auteurs"
 msgid "Published from"
 msgstr "Gepubliceerd vanaf"
 
-#: src/Admin/ResultsListTable.php:123 src/Admin/ScanTab.php:67
+#: src/Admin/ResultsListTable.php:123
+#: src/Admin/ScanTab.php:67
 msgid "Published until"
 msgstr "Gepubliceerd tot en met"
 
@@ -293,10 +280,12 @@ msgstr "Alleen verouderd"
 msgid "Filter"
 msgstr "Filteren"
 
+#: src/Admin/ResultDetails.php:99
 #: src/Admin/ResultsListTable.php:142
 msgid "stale"
 msgstr "verouderd"
 
+#: src/Admin/ResultDetails.php:100
 #: src/Admin/ResultsListTable.php:143
 msgid "Content changed after this scan"
 msgstr "De inhoud is na deze scan gewijzigd"
@@ -305,11 +294,14 @@ msgstr "De inhoud is na deze scan gewijzigd"
 msgid "Why is this result stale?"
 msgstr "Waarom is dit resultaat verouderd?"
 
+#: src/Admin/ResultDetails.php:96
 #: src/Admin/ResultsListTable.php:151
 msgid "View"
 msgstr "Bekijken"
 
-#: src/Admin/ResultsListTable.php:158 src/Admin/ScanTab.php:94
+#: src/Admin/ResultDetails.php:195
+#: src/Admin/ResultsListTable.php:158
+#: src/Admin/ScanTab.php:94
 msgid "Rescan"
 msgstr "Opnieuw scannen"
 
@@ -317,7 +309,8 @@ msgstr "Opnieuw scannen"
 msgid "View error details"
 msgstr "Foutdetails bekijken"
 
-#: src/Admin/ResultsListTable.php:214 src/Admin/ResultsTab.php:74
+#: src/Admin/ResultsTab.php:74
+#: src/Admin/StatusLabels.php:59
 msgid "Mix"
 msgstr "Mix"
 
@@ -347,6 +340,7 @@ msgstr "Gepubliceerd tussen %1$s en %2$s."
 msgid "No successful scans yet."
 msgstr "Nog geen geslaagde scans."
 
+#: src/Admin/ResultDetails.php:184
 #: src/Admin/ResultsTab.php:70
 msgid "Scanned"
 msgstr "Gescand"
@@ -364,19 +358,16 @@ msgid "Add posts to the queue"
 msgstr "Berichten aan de wachtrij toevoegen"
 
 #: src/Admin/ScanTab.php:39
-msgid ""
-"The full text of every selected post is sent to Pangram Labs. Only post "
-"types and statuses enabled in the settings can be selected."
-msgstr ""
-"De volledige tekst van elk geselecteerd bericht wordt naar Pangram Labs "
-"gestuurd. Alleen berichttypen en statussen die in de instellingen zijn "
-"ingeschakeld, kunnen worden gekozen."
+msgid "The full text of every selected post is sent to Pangram Labs. Only post types and statuses enabled in the settings can be selected."
+msgstr "De volledige tekst van elk geselecteerd bericht wordt naar Pangram Labs gestuurd. Alleen berichttypen en statussen die in de instellingen zijn ingeschakeld, kunnen worden gekozen."
 
-#: src/Admin/ScanTab.php:45 src/Admin/SettingsTab.php:82
+#: src/Admin/ScanTab.php:45
+#: src/Admin/SettingsTab.php:82
 msgid "Post types"
 msgstr "Berichttypen"
 
-#: src/Admin/ScanTab.php:54 src/Admin/SettingsTab.php:91
+#: src/Admin/ScanTab.php:54
+#: src/Admin/SettingsTab.php:91
 msgid "Post statuses"
 msgstr "Berichtstatussen"
 
@@ -386,9 +377,7 @@ msgstr "Gepubliceerd tussen"
 
 #: src/Admin/ScanTab.php:68
 msgid "Both bounds are inclusive and use the post date. Leave empty for all."
-msgstr ""
-"Beide datums worden meegenomen en zijn gebaseerd op de publicatiedatum. Laat "
-"de velden leeg om alles te selecteren."
+msgstr "Beide datums worden meegenomen en zijn gebaseerd op de publicatiedatum. Laat de velden leeg om alles te selecteren."
 
 #: src/Admin/ScanTab.php:72
 msgid "Authors"
@@ -421,11 +410,8 @@ msgstr "Wachtrij"
 #. translators: 1: bulk ID, 2: status, 3: item count, 4: results processed, 5: age
 #: src/Admin/ScanTab.php:124
 #, php-format
-msgid ""
-"Open job %1$s: %2$s, %3$d items, %4$d results processed, submitted %5$s ago."
-msgstr ""
-"Openstaande taak %1$s: %2$s, %3$d berichten, %4$d resultaten verwerkt, %5$s "
-"geleden ingediend."
+msgid "Open job %1$s: %2$s, %3$d items, %4$d results processed, submitted %5$s ago."
+msgstr "Openstaande taak %1$s: %2$s, %3$d berichten, %4$d resultaten verwerkt, %5$s geleden ingediend."
 
 #: src/Admin/ScanTab.php:133
 msgid "No open Pangram job."
@@ -479,6 +465,7 @@ msgstr "Tijd (UTC)"
 msgid "HTTP"
 msgstr "HTTP"
 
+#: src/Admin/ResultDetails.php:92
 #: src/Admin/ScanTab.php:177
 msgid "Post"
 msgstr "Bericht"
@@ -505,9 +492,7 @@ msgstr "Pangram API-sleutel"
 
 #: src/Admin/SettingsTab.php:46
 msgid "is defined in wp-config.php; the stored key is ignored and hidden."
-msgstr ""
-"is ingesteld in wp-config.php; de opgeslagen sleutel wordt genegeerd en "
-"verborgen."
+msgstr "is ingesteld in wp-config.php; de opgeslagen sleutel wordt genegeerd en verborgen."
 
 #: src/Admin/SettingsTab.php:48
 msgid "(stored key kept when left empty)"
@@ -518,17 +503,14 @@ msgid "Remove the stored API key"
 msgstr "Opgeslagen API-sleutel verwijderen"
 
 #: src/Admin/SettingsTab.php:52
-msgid ""
-"Stored in the options table. For production, define ZW_PANGRAM_API_KEY in wp-"
-"config.php instead."
-msgstr ""
-"Wordt opgeslagen in de optietabel. Stel voor productie liever "
-"ZW_PANGRAM_API_KEY in via wp-config.php."
+msgid "Stored in the options table. For production, define ZW_PANGRAM_API_KEY in wp-config.php instead."
+msgstr "Wordt opgeslagen in de optietabel. Stel voor productie liever ZW_PANGRAM_API_KEY in via wp-config.php."
 
 #: src/Admin/SettingsTab.php:55
 msgid "Test connection"
 msgstr "Verbinding testen"
 
+#: src/Admin/ResultDetails.php:178
 #: src/Admin/SettingsTab.php:61
 msgid "Model"
 msgstr "Model"
@@ -542,12 +524,8 @@ msgid "Posts per cron tick"
 msgstr "Berichten per verwerkingsronde"
 
 #: src/Admin/SettingsTab.php:71
-msgid ""
-"Maximum posts claimed per bulk request (1-1000). The request is also capped "
-"by Pangram's 1000 billable units."
-msgstr ""
-"Maximaal aantal berichten per bulkverzoek (1–1.000). Ook geldt de limiet van "
-"1.000 factureerbare eenheden van Pangram."
+msgid "Maximum posts claimed per bulk request (1-1000). The request is also capped by Pangram's 1000 billable units."
+msgstr "Maximaal aantal berichten per bulkverzoek (1–1.000). Ook geldt de limiet van 1.000 factureerbare eenheden van Pangram."
 
 #: src/Admin/SettingsTab.php:75
 msgid "Minimum word count"
@@ -562,35 +540,20 @@ msgid "Include password-protected posts"
 msgstr "Met een wachtwoord beveiligde berichten meenemen"
 
 #: src/Admin/SettingsTab.php:99
-msgid ""
-"Warning: the full text of every selected post is sent to Pangram Labs, a "
-"third party. Unpublished, private or password-protected content is only sent "
-"when you enable it here."
-msgstr ""
-"Let op: de volledige tekst van elk geselecteerd bericht wordt naar Pangram "
-"Labs gestuurd, een externe partij. Tekst uit ongepubliceerde, privé- of met "
-"een wachtwoord beveiligde berichten wordt alleen verstuurd als je dit hier "
-"inschakelt."
+msgid "Warning: the full text of every selected post is sent to Pangram Labs, a third party. Unpublished, private or password-protected content is only sent when you enable it here."
+msgstr "Let op: de volledige tekst van elk geselecteerd bericht wordt naar Pangram Labs gestuurd, een externe partij. Tekst uit ongepubliceerde, privé- of met een wachtwoord beveiligde berichten wordt alleen verstuurd als je dit hier inschakelt."
 
 #: src/Admin/SettingsTab.php:103
 msgid "Stored response"
 msgstr "Opgeslagen API-respons"
 
 #: src/Admin/SettingsTab.php:105
-msgid ""
-"Store the full response including the analyzed text and per-segment text"
-msgstr ""
-"Volledige respons bewaren, inclusief de geanalyseerde tekst en tekst per "
-"segment"
+msgid "Store the full response including the analyzed text and per-segment text"
+msgstr "Volledige respons bewaren, inclusief de geanalyseerde tekst en tekst per segment"
 
 #: src/Admin/SettingsTab.php:106
-msgid ""
-"Off by default: the response is stored without text fields. Turning this off "
-"later does not remove text already stored; use the purge button below."
-msgstr ""
-"Standaard uitgeschakeld: de respons wordt zonder tekstvelden opgeslagen. Als "
-"je dit later uitschakelt, wordt eerder opgeslagen tekst niet verwijderd; "
-"gebruik daarvoor de knop hieronder."
+msgid "Off by default: the response is stored without text fields. Turning this off later does not remove text already stored; use the purge button below."
+msgstr "Standaard uitgeschakeld: de respons wordt zonder tekstvelden opgeslagen. Als je dit later uitschakelt, wordt eerder opgeslagen tekst niet verwijderd; gebruik daarvoor de knop hieronder."
 
 #: src/Admin/SettingsTab.php:113
 msgid "Purge stored response text"
@@ -600,12 +563,14 @@ msgstr "Opgeslagen responstekst verwijderen"
 msgid "OK"
 msgstr "OK"
 
-#: src/Admin/StatusLabels.php:26 src/Admin/StatusLabels.php:44
-#: src/Admin/StatusLabels.php:61
+#: src/Admin/StatusLabels.php:26
+#: src/Admin/StatusLabels.php:44
+#: src/Admin/StatusLabels.php:106
 msgid "Failed"
 msgstr "Mislukt"
 
-#: src/Admin/StatusLabels.php:27 src/Admin/StatusLabels.php:45
+#: src/Admin/StatusLabels.php:27
+#: src/Admin/StatusLabels.php:45
 msgid "Skipped"
 msgstr "Overgeslagen"
 
@@ -625,19 +590,19 @@ msgstr "Ingediend"
 msgid "Done"
 msgstr "Voltooid"
 
-#: src/Admin/StatusLabels.php:58
+#: src/Admin/StatusLabels.php:103
 msgid "Queued"
 msgstr "In wachtrij"
 
-#: src/Admin/StatusLabels.php:59
+#: src/Admin/StatusLabels.php:104
 msgid "Running"
 msgstr "Wordt uitgevoerd"
 
-#: src/Admin/StatusLabels.php:60
+#: src/Admin/StatusLabels.php:105
 msgid "Succeeded"
 msgstr "Geslaagd"
 
-#: src/Admin/StatusLabels.php:62
+#: src/Admin/StatusLabels.php:107
 msgid "Partially completed"
 msgstr "Gedeeltelijk voltooid"
 
@@ -650,12 +615,8 @@ msgid "The Pangram API key is missing."
 msgstr "De Pangram API-sleutel ontbreekt."
 
 #: src/Cron/Tick.php:79
-msgid ""
-"The open Pangram job belongs to a different API key. Restore that key or "
-"abandon the job."
-msgstr ""
-"De openstaande Pangram-taak hoort bij een andere API-sleutel. Zet die "
-"sleutel terug of breek de taak af."
+msgid "The open Pangram job belongs to a different API key. Restore that key or abandon the job."
+msgstr "De openstaande Pangram-taak hoort bij een andere API-sleutel. Zet die sleutel terug of breek de taak af."
 
 #. translators: %s: error message
 #: src/Cron/Tick.php:173
@@ -668,3 +629,108 @@ msgstr "Pangram weigerde het verzoek bij het opvragen van de status: %s"
 #, php-format
 msgid "Pangram rejected the submission: %s"
 msgstr "Pangram weigerde de inzending: %s"
+
+#: src/Admin/ResultDetails.php:42
+msgid "Result details"
+msgstr "Resultaatdetails"
+
+#: src/Admin/ResultDetails.php:44
+msgid "No stored Pangram result for this post."
+msgstr "Er is geen opgeslagen Pangram-resultaat voor dit bericht."
+
+#: src/Admin/ResultDetails.php:140
+msgid "Assessment"
+msgstr "Beoordeling"
+
+#: src/Admin/ResultDetails.php:146
+msgid "Share of text"
+msgstr "Aandeel van de tekst"
+
+#. translators: 1: AI share, 2: AI-assisted share, 3: human share
+#: src/Admin/ResultDetails.php:151
+#, php-format
+msgid "AI %1$s, AI-assisted %2$s, human %3$s"
+msgstr "AI %1$s, AI-ondersteund %2$s, mens %3$s"
+
+#: src/Admin/ResultDetails.php:162
+#: src/Admin/ResultDetails.php:208
+msgid "Segments"
+msgstr "Segmenten"
+
+#. translators: 1: AI segments, 2: AI-assisted segments, 3: human segments
+#: src/Admin/ResultDetails.php:167
+#, php-format
+msgid "%1$d AI, %2$d AI-assisted, %3$d human"
+msgstr "%1$d AI, %2$d AI-ondersteund, %3$d mens"
+
+#: src/Admin/ResultDetails.php:210
+msgid "The response of this scan is not stored."
+msgstr "De respons van deze scan is niet opgeslagen."
+
+#: src/Admin/ResultDetails.php:215
+msgid "The stored response contains no segment breakdown."
+msgstr "De opgeslagen respons bevat geen uitsplitsing per segment."
+
+#: src/Admin/ResultDetails.php:224
+msgid "Confidence"
+msgstr "Zekerheid"
+
+#: src/Admin/ResultDetails.php:225
+msgid "AI assistance"
+msgstr "AI-ondersteuning"
+
+#: src/Admin/ResultDetails.php:226
+msgid "Humanized"
+msgstr "Vermenselijkt"
+
+#: src/Admin/ResultDetails.php:227
+msgid "Words"
+msgstr "Woorden"
+
+#: src/Admin/ResultDetails.php:228
+msgid "Characters"
+msgstr "Tekens"
+
+#: src/Admin/ResultDetails.php:229
+msgid "Text"
+msgstr "Tekst"
+
+#: src/Admin/ResultDetails.php:249
+msgid "Yes"
+msgstr "Ja"
+
+#: src/Admin/ResultDetails.php:249
+msgid "No"
+msgstr "Nee"
+
+#: src/Admin/ResultDetails.php:264
+msgid "Segment text is not stored. Enable \"Store the full response\" in the settings to keep it for future scans."
+msgstr "Segmenttekst wordt niet opgeslagen. Schakel \"Volledige respons bewaren\" in bij de instellingen om die bij toekomstige scans te bewaren."
+
+#: src/Admin/ResultDetails.php:272
+msgid "Back to results"
+msgstr "Terug naar resultaten"
+
+#: src/Admin/ResultsListTable.php:149
+msgid "Details"
+msgstr "Details"
+
+#: src/Admin/StatusLabels.php:73
+msgid "AI-generated"
+msgstr "AI-gegenereerd"
+
+#: src/Admin/StatusLabels.php:75
+msgid "Human-written"
+msgstr "Door een mens geschreven"
+
+#: src/Admin/StatusLabels.php:88
+msgid "High"
+msgstr "Hoog"
+
+#: src/Admin/StatusLabels.php:89
+msgid "Medium"
+msgstr "Gemiddeld"
+
+#: src/Admin/StatusLabels.php:90
+msgid "Low"
+msgstr "Laag"

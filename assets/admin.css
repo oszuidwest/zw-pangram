@@ -105,3 +105,13 @@
 #zw-pangram-test-result.is-ok {
     color: #00450c;
 }
+.zw-pangram .zw-pangram-details th {
+    width: 12em;
+    text-align: left;
+}
+.zw-pangram .zw-pangram-segments td {
+    vertical-align: top;
+}
+.zw-pangram .zw-pangram-segment-text {
+    white-space: pre-wrap;
+}

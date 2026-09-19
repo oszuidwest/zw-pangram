@@ -10,13 +10,18 @@ declare(strict_types=1);
 namespace ZWPangram\Admin;
 
 /**
- * Author statistics, the list table and the CSV export button.
+ * Author statistics, the list table and the CSV export button, or the details of one result.
  */
 final class ResultsTab
 {
-    /** Renders filtered results, statistics, and export controls. */
+    /** Renders filtered results, statistics, and export controls, or the requested result details. */
     public static function render(): void
     {
+        $detailsPostId = ResultDetails::requestedPostId();
+        if ($detailsPostId > 0) {
+            ResultDetails::render($detailsPostId);
+            return;
+        }
         $filters = ResultsFilters::fromRequest(wp_unslash($_GET)); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput -- Read-only filters, validated field by field.
         self::renderStats($filters);
 

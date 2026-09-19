@@ -125,16 +125,20 @@ final class AdminPage
     /**
      * Prints a nonce-protected, single-button admin-post form.
      *
-     * @param string $action Admin-post action.
-     * @param string $nonce  Nonce action.
-     * @param string $label  Button label.
+     * @param string                    $action Admin-post action.
+     * @param string                    $nonce  Nonce action.
+     * @param string                    $label  Button label.
+     * @param array<string, int|string> $hidden Additional hidden fields.
      */
-    public static function actionForm(string $action, string $nonce, string $label): void
+    public static function actionForm(string $action, string $nonce, string $label, array $hidden = []): void
     {
         ?>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="zw-pangram-inline-form">
             <?php wp_nonce_field($nonce); ?>
             <input type="hidden" name="action" value="<?php echo esc_attr($action); ?>">
+            <?php foreach ($hidden as $name => $value) : ?>
+                <input type="hidden" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr((string) $value); ?>">
+            <?php endforeach; ?>
             <?php submit_button($label, 'secondary', $action . '_submit', false); ?>
         </form>
         <?php

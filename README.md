@@ -6,6 +6,7 @@ From **Tools > Pangram** you can:
 
 - select and queue posts for analysis;
 - review results and compare scores by author;
+- open the details of a scanned post, including Pangram's per-segment breakdown;
 - filter results and export them as CSV.
 
 Posts are sent only when you explicitly add them to the scan queue. Saving or publishing a post does not trigger a scan.
@@ -35,6 +36,10 @@ define('ZW_PANGRAM_API_KEY', 'your-key');
 ```
 
 WP-Cron processes the queue in the background. On low-traffic sites, configure a system cron to run WordPress cron regularly.
+
+## Stored responses
+
+Every successful scan stores Pangram's response so that **Details** on a result can show the long-form assessment and the per-segment breakdown: label, confidence, AI-assistance score, humanizer flag, word count and character range per segment. By default the analyzed text is stripped from the response before it is stored, so the details view shows segment metadata only. Enable **Store the full response** under Settings to keep the segment text for future scans; **Purge stored response text** removes it again from every row. Pangram Labs receives the full text of every queued post regardless of this setting.
 
 ## Migrating from WP Pangram
 
