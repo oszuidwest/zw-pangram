@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: ZuidWest Pangram 0.1.0\n"
+"Project-Id-Version: ZuidWest Pangram 0.2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/oszuidwest/zw-pangram/issues\n"
 "Last-Translator: Raymond Mens\n"
 "Language-Team: Dutch\n"
