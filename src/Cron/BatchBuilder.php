@@ -61,7 +61,7 @@ final class BatchBuilder
     /**
      * Builds one request while settling or releasing unused claims.
      *
-     * @param list<Row>                  $rows     Claimed rows (ordered by ID).
+     * @param list<Row>                  $rows     Claimed rows in queue order.
      * @param array<string, mixed>       $settings Settings::get().
      * @param string                     $token    Claim token.
      * @param int                        $cap      Adaptive unit cap.

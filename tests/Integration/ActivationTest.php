@@ -49,6 +49,18 @@ final class ActivationTest extends PluginTestCase
         $this->assertSame(Activation::DB_VERSION, get_option(Activation::DB_VERSION_OPTION));
     }
 
+    public function test_maybe_upgrade_replaces_the_legacy_queue_index(): void
+    {
+        global $wpdb;
+        $table = ItemsRepository::tableName();
+        $wpdb->query("ALTER TABLE {$table} DROP INDEX queue_claim, ADD KEY queue_next (queue_status,next_attempt_at,id)");
+        update_option(Activation::DB_VERSION_OPTION, '1');
+
+        $this->assertTrue(Activation::maybeUpgrade());
+        $this->assertNotNull($wpdb->get_var($wpdb->prepare('SHOW INDEX FROM %i WHERE Key_name = %s', $table, 'queue_claim')));
+        $this->assertNull($wpdb->get_var($wpdb->prepare('SHOW INDEX FROM %i WHERE Key_name = %s', $table, 'queue_next')));
+    }
+
     public function test_uninstall_removes_everything(): void
     {
         global $wpdb;

@@ -34,6 +34,34 @@ final class ItemsRepositoryTest extends PluginTestCase
         $this->assertSame([], $this->repo->claim(2, 'tokenC'));
     }
 
+    public function test_reenqueued_terminal_row_joins_the_back_of_the_queue(): void
+    {
+        global $wpdb;
+        $old = $this->post();
+        $new = $this->post();
+
+        $this->repo->upsertPending([$old], false);
+        $this->repo->markSkippedInQueue($this->row($old), 'done');
+        $this->repo->upsertPending([$new], false);
+        $wpdb->update(ItemsRepository::tableName(), ['queued_at' => '2026-01-01 00:00:00'], ['post_id' => $new]);
+        $this->repo->upsertPending([$old], true);
+
+        $this->assertSame([$new, $old], array_column($this->repo->claim(2, 'fifo'), 'post_id'));
+    }
+
+    public function test_reenqueued_pending_row_keeps_its_queue_position(): void
+    {
+        global $wpdb;
+        $a = $this->post();
+        $b = $this->post();
+
+        $this->repo->upsertPending([$a, $b], false);
+        $wpdb->update(ItemsRepository::tableName(), ['queued_at' => '2026-01-01 00:00:00'], ['post_id' => $b]);
+        $this->repo->upsertPending([$b], true);
+
+        $this->assertSame([$b], array_column($this->repo->claim(1, 'fifo'), 'post_id'));
+    }
+
     public function test_upsert_does_not_touch_in_flight_rows_except_rescan_flag_on_force(): void
     {
         $p = $this->post();

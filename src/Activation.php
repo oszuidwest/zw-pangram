@@ -20,7 +20,7 @@ use ZWPangram\Support\Settings;
  */
 final class Activation
 {
-    public const DB_VERSION = '1';
+    public const DB_VERSION = '2';
     public const DB_VERSION_OPTION = 'zw_pangram_db_version';
 
     /**
