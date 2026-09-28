@@ -19,7 +19,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^2.5.14",
-        "@wordpress/env": "^11.15.0",
+        "@wordpress/env": "^11.16.0",
         "@wp-playground/cli": "^3.1.53"
     }
 }
