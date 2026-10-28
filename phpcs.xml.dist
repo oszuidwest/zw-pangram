@@ -14,7 +14,7 @@
     <arg name="parallel" value="8"/>
     <arg value="sp"/>
 
-    <config name="testVersion" value="8.3-"/>
+    <config name="testVersion" value="8.4-"/>
 
     <!-- Apply defect-oriented WordPress rules without classic formatting conventions. -->
     <rule ref="WordPress-Docs">

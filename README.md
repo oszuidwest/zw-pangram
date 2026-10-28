@@ -16,7 +16,7 @@ Posts are sent only when you explicitly add them to the scan queue. Saving or pu
 ## Requirements
 
 - WordPress 7.1+
-- PHP 8.3+
+- PHP 8.4+
 - A Pangram API key with bulk access
 - A working WP-Cron setup
 
