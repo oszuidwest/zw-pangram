@@ -65,7 +65,7 @@ final class CsvExport
             return;
         }
         echo "\xEF\xBB\xBF";
-        fputcsv($out, ['post_id', 'title', 'url', 'edit_url', 'author', 'post_date', 'label', 'headline', 'fraction_ai', 'fraction_ai_assisted', 'fraction_human', 'scanned_at', 'stale', 'status', 'error', 'model']);
+        fputcsv($out, ['post_id', 'title', 'url', 'edit_url', 'author', 'post_date', 'label', 'headline', 'fraction_ai', 'fraction_ai_assisted', 'fraction_human', 'scanned_at', 'stale', 'status', 'error', 'model'], ',', '"', '');
 
         $query = new ResultsQuery();
         $page = 1;
@@ -94,7 +94,7 @@ final class CsvExport
                     $row['result_status'],
                     (string) ($row['result_error'] ?? ''),
                     (string) ($row['model'] ?? ''),
-                ]));
+                ]), ',', '"', '');
             }
             fflush($out);
             wp_cache_flush_runtime();
