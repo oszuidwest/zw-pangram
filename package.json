@@ -18,7 +18,7 @@
         "make-pot": "scripts/pot.sh"
     },
     "devDependencies": {
-        "@biomejs/biome": "^2.6.2",
+        "@biomejs/biome": "^2.6.4",
         "@wordpress/env": "^12.0.0",
         "@wp-playground/cli": "^3.1.60"
     }
