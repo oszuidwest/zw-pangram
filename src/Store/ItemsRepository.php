@@ -157,7 +157,7 @@ final class ItemsRepository
         global $wpdb;
         $sql = $wpdb->prepare('SELECT ' . self::LIST_COLUMNS . ' FROM %i WHERE post_id IN (' . self::placeholders($postIds) . ')', self::tableName(), ...$postIds); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Placeholder list is generated from the argument count.
         $out = [];
-        foreach ((array) $wpdb->get_results($sql, ARRAY_A) as $row) {
+        foreach ((array) $wpdb->get_results($sql, ARRAY_A) as $row) { // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql was prepared above from constants and generated placeholders.
             if (is_array($row)) {
                 $cast = self::cast($row);
                 $out[$cast['post_id']] = $cast;
@@ -224,7 +224,7 @@ final class ItemsRepository
         global $wpdb;
         $sql = $wpdb->prepare("SELECT post_id, queue_status FROM %i WHERE queue_status IN ('pending','processing','submitted') AND post_id IN (" . self::placeholders($postIds) . ')', self::tableName(), ...$postIds); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Generated placeholder list.
         $out = [];
-        foreach ((array) $wpdb->get_results($sql, ARRAY_A) as $row) {
+        foreach ((array) $wpdb->get_results($sql, ARRAY_A) as $row) { // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql was prepared above from constants and generated placeholders.
             if (is_array($row)) {
                 $out[(int) $row['post_id']] = (string) $row['queue_status'];
             }
@@ -253,7 +253,7 @@ final class ItemsRepository
             $wpdb->posts,
             ...$postIds
         ); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Generated placeholder list.
-        return array_map('intval', (array) $wpdb->get_col($sql));
+        return array_map('intval', (array) $wpdb->get_col($sql)); // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql was prepared above from constants and generated placeholders.
     }
 
     /**
@@ -287,7 +287,7 @@ final class ItemsRepository
               queued_at        = IF(queue_status IN ('pending','processing','submitted'), queued_at, VALUES(queued_at)),
               updated_at       = VALUES(updated_at),
               queue_status     = IF(queue_status IN ('processing','submitted'), queue_status, 'pending')";
-        $wpdb->query($wpdb->prepare($sql, ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Generated placeholder list.
+        $wpdb->query($wpdb->prepare($sql, ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Generated placeholder list.
     }
 
     /**
@@ -333,7 +333,7 @@ final class ItemsRepository
             $sql .= ' AND post_id IN (' . self::placeholders($postIds) . ')';
             array_push($args, ...$postIds);
         }
-        $wpdb->query($wpdb->prepare($sql, ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Generated placeholder list.
+        $wpdb->query($wpdb->prepare($sql, ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Generated placeholder list.
     }
 
     /**
@@ -408,7 +408,7 @@ final class ItemsRepository
         global $wpdb;
         $sql = "UPDATE %i SET queue_status = 'submitted', bulk_id = %s, claim_token = NULL, claimed_at = NULL, next_attempt_at = NULL, updated_at = %s
                 WHERE claim_token = %s AND queue_status = 'processing' AND post_id IN (" . self::placeholders($postIds) . ')';
-        $wpdb->query($wpdb->prepare($sql, self::tableName(), $bulkId, Dates::nowUtc(), $token, ...$postIds)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Generated placeholder list.
+        $wpdb->query($wpdb->prepare($sql, self::tableName(), $bulkId, Dates::nowUtc(), $token, ...$postIds)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Generated placeholder list.
     }
 
     /**
@@ -481,7 +481,7 @@ final class ItemsRepository
             $args[] = $activeBulkId;
         }
         $n = 0;
-        foreach ((array) $wpdb->get_col($wpdb->prepare($sql, ...$args)) as $bulkId) { // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Conditional placeholder.
+        foreach ((array) $wpdb->get_col($wpdb->prepare($sql, ...$args)) as $bulkId) { // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Conditional placeholder.
             $n += $this->requeueBulk((string) $bulkId, false, 'Submitted without an open job; requeued.');
         }
         return $n;
@@ -504,7 +504,7 @@ final class ItemsRepository
             $sql .= ' AND (claim_token IS NULL OR claim_token NOT IN (' . implode(', ', array_fill(0, count($activeTokens), '%s')) . '))';
             array_push($args, ...$activeTokens);
         }
-        $result = $wpdb->query($wpdb->prepare($sql, ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Generated placeholder list.
+        $result = $wpdb->query($wpdb->prepare($sql, ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Generated placeholder list.
         return is_int($result) ? $result : 0;
     }
 
