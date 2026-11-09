@@ -38,7 +38,7 @@ final class ResultsQuery
         global $wpdb;
         [$where, $args] = $this->where($filters);
         $sql = 'SELECT COUNT(*) FROM %i AS p INNER JOIN %i AS i ON i.post_id = p.ID AND i.result_status IS NOT NULL WHERE ' . $where;
-        return (int) $wpdb->get_var($wpdb->prepare($sql, $wpdb->posts, ItemsRepository::tableName(), ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Placeholders generated in where().
+        return (int) $wpdb->get_var($wpdb->prepare($sql, $wpdb->posts, ItemsRepository::tableName(), ...$args)); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Placeholders generated in where().
     }
 
     /**
@@ -60,7 +60,7 @@ final class ResultsQuery
                 WHERE ' . $where . ' ORDER BY ' . $this->orderBy($filters) . ' LIMIT %d OFFSET %d';
         $args[] = max(1, $perPage);
         $args[] = max(0, ($page - 1) * $perPage);
-        $rows = $wpdb->get_results($wpdb->prepare($sql, $wpdb->posts, ItemsRepository::tableName(), ...$args), ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Placeholders generated in where().
+        $rows = $wpdb->get_results($wpdb->prepare($sql, $wpdb->posts, ItemsRepository::tableName(), ...$args), ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Placeholders generated in where().
         $out = [];
         foreach ((array) $rows as $row) {
             if (!is_array($row)) {

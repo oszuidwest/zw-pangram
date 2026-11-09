@@ -43,7 +43,7 @@ final class AuthorStats
                 FROM %i AS p INNER JOIN %i AS i ON i.post_id = p.ID
                 WHERE " . $where . '
                 GROUP BY p.post_author ORDER BY scanned DESC, p.post_author ASC';
-        $rows = (array) $wpdb->get_results($wpdb->prepare($sql, $wpdb->posts, ItemsRepository::tableName(), ...$args), ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Placeholders generated in where().
+        $rows = (array) $wpdb->get_results($wpdb->prepare($sql, $wpdb->posts, ItemsRepository::tableName(), ...$args), ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Placeholders generated in where().
 
         $ids = array_map('intval', array_column($rows, 'post_author'));
         $names = $ids === [] ? [] : wp_list_pluck(get_users(['include' => $ids, 'fields' => ['ID', 'display_name']]), 'display_name', 'ID');
