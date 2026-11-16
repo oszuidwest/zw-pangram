@@ -20,7 +20,7 @@
     "devDependencies": {
         "@biomejs/biome": "^2.6.7",
         "@wordpress/env": "^12.1.0",
-        "@wp-playground/cli": "^3.1.62"
+        "@wp-playground/cli": "^3.1.64"
     },
     "overrides": {
         "isomorphic-git": "^1.38.6",
