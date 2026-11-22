@@ -5,7 +5,7 @@
         "author": "rmens"
     },
     "landingPage": "/wp-admin/tools.php?page=zw-pangram&tab=settings",
-    "preferredVersions": { "php": "8.4", "wp": "7.1" },
+    "preferredVersions": { "php": "8.4", "wp": "latest" },
     "login": true,
     "siteOptions": {
         "blogname": "ZuidWest Pangram demo"
