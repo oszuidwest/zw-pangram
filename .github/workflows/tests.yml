@@ -44,5 +44,5 @@ jobs:
       - name: Run PHPUnit
         run: npm run test:php
 
-      - name: Playground smoke (blueprint runs headless)
+      - name: Playground smoke on the latest WordPress (blueprint runs headless)
         run: npm run playground:smoke
